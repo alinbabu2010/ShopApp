@@ -14,8 +14,11 @@ class ShopApp extends StatelessWidget {
     return MaterialApp(
       title: appName,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          colorScheme: const ColorScheme.light(
+            primary: Colors.indigo,
+            secondary: Colors.deepOrange,
+          ),
+          fontFamily: latoFont),
       home: ProductsOverview(),
       debugShowCheckedModeBanner: false,
     );

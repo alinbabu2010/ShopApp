@@ -8,3 +8,6 @@ const productOverviewGridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
   crossAxisSpacing: 10,
   mainAxisSpacing: 10,
 );
+
+// ProductItem Widget
+var productItemClipRadius = BorderRadius.circular(10);
