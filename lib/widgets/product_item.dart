@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/dimens.dart';
+
 class ProductItem extends StatelessWidget {
   final String id;
   final String title;
@@ -14,25 +16,38 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridTile(
-      footer: GridTileBar(
-        leading: IconButton(
-          icon: const Icon(Icons.favorite),
-          onPressed: () {},
-          color: Theme.of(context).colorScheme.secondary,
+    final theme = Theme.of(context);
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: theme.colorScheme.primary,
         ),
-        backgroundColor: Colors.black87,
-        title: Text(
-          title,
-          textAlign: TextAlign.center,
-        ),
-        trailing: IconButton(
-          icon: const Icon(Icons.shopping_cart),
-          onPressed: () {},
-          color: Theme.of(context).colorScheme.secondary,
+        borderRadius: productItemContainerRadius,
+      ),
+      child: ClipRRect(
+        borderRadius: productItemClipRadius,
+        clipBehavior: Clip.hardEdge,
+        child:GridTile(
+          footer: GridTileBar(
+            leading: IconButton(
+              icon: const Icon(Icons.favorite),
+              onPressed: () {},
+              color: theme.colorScheme.secondary,
+            ),
+            backgroundColor: Colors.black87,
+            title: Text(
+              title,
+              textAlign: TextAlign.center,
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {},
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+          child: Image.network(imageUrl, fit: BoxFit.cover),
         ),
       ),
-      child: Image.network(imageUrl, fit: BoxFit.cover),
     );
   }
 }

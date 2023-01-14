@@ -11,3 +11,4 @@ const productOverviewGridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
 
 // ProductItem Widget
 var productItemClipRadius = BorderRadius.circular(10);
+var productItemContainerRadius = BorderRadius.circular(10.5);
