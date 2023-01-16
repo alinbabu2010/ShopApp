@@ -27,7 +27,8 @@ class ShopApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           ProductsOverview.routeName: (context) => ProductsOverview(),
-          ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+          ProductDetailScreen.routeName: (context) =>
+              const ProductDetailScreen(),
         },
       ),
     );
