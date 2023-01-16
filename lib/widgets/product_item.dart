@@ -4,16 +4,7 @@ import 'package:shop_app/screens/product_detail_screen.dart';
 import '../utils/dimens.dart';
 
 class ProductItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imageUrl;
-
-  const ProductItem({
-    Key? key,
-    required this.id,
-    required this.title,
-    required this.imageUrl,
-  }) : super(key: key);
+  const ProductItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
