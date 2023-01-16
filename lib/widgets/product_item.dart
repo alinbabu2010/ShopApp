@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/product_detail_screen.dart';
 
 import '../utils/dimens.dart';
 
@@ -27,7 +28,7 @@ class ProductItem extends StatelessWidget {
       child: ClipRRect(
         borderRadius: productItemClipRadius,
         clipBehavior: Clip.hardEdge,
-        child:GridTile(
+        child: GridTile(
           footer: GridTileBar(
             leading: IconButton(
               icon: const Icon(Icons.favorite),
@@ -45,7 +46,11 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondary,
             ),
           ),
-          child: Image.network(imageUrl, fit: BoxFit.cover),
+          child: GestureDetector(
+            onTap: () => Navigator.of(context)
+                .pushNamed(ProductDetailScreen.routeName, arguments: id),
+            child: Image.network(imageUrl, fit: BoxFit.cover),
+          ),
         ),
       ),
     );
