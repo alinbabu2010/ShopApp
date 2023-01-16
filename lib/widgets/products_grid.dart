@@ -16,11 +16,9 @@ class ProductsGrid extends StatelessWidget {
       gridDelegate: productOverviewGridDelegate,
       padding: productOverviewGridPadding,
       itemBuilder: (context, index) {
-        final product = products[index];
-        return ProductItem(
-          id: product.id,
-          title: product.title,
-          imageUrl: product.imageUrl,
+        return ChangeNotifierProvider(
+          create: (context) => products[index],
+          child: const ProductItem(),
         );
       },
       itemCount: products.length,
