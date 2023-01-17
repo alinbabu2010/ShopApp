@@ -3,6 +3,7 @@ import 'package:shop_app/providers/product.dart';
 
 import '../utils/constants.dart' as constants;
 import '../utils/dimens.dart' as dimens;
+import '../utils/form_validator.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit_product_screen';
@@ -36,11 +37,22 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   void _updateImageUrl() {
     if (!_imageUrlFocusNode.hasFocus) {
+      var isValid = FormValidator.checkUrl(
+        _imageUrlController.text,
+        checkEmpty: false,
+      );
+      if (isValid != null) {
+        return;
+      }
       setState(() {});
     }
   }
 
   void _saveForm() {
+    var isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) {
+      return;
+    }
     _formKey.currentState?.save();
   }
 
@@ -93,16 +105,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) => _priceFocusNode.requestFocus(),
                   onSaved: (value) => createProduct(title: value),
+                  validator: (value) => FormValidator.checkTitle(value),
                 ),
                 TextFormField(
-                  decoration: const InputDecoration(labelText: constants.price),
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.number,
-                  focusNode: _priceFocusNode,
-                  onFieldSubmitted: (_) => _descriptionFocusNode.requestFocus(),
-                  onSaved: (value) =>
-                      createProduct(price: double.tryParse(value!)),
-                ),
+                    decoration:
+                        const InputDecoration(labelText: constants.price),
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.number,
+                    focusNode: _priceFocusNode,
+                    onFieldSubmitted: (_) =>
+                        _descriptionFocusNode.requestFocus(),
+                    onSaved: (value) =>
+                        createProduct(price: double.tryParse(value!)),
+                    validator: (value) => FormValidator.checkPrice(value)),
                 TextFormField(
                   decoration:
                       const InputDecoration(labelText: constants.description),
@@ -110,6 +125,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   keyboardType: TextInputType.multiline,
                   focusNode: _descriptionFocusNode,
                   onSaved: (value) => createProduct(description: value),
+                  validator: (value) => FormValidator.checkDescription(value),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -123,11 +139,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       child: _imageUrlController.text.isEmpty
                           ? const Text(constants.enterImageUrl)
                           : FittedBox(
-                        child: Image.network(
-                          _imageUrlController.text,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                              child: Image.network(
+                                _imageUrlController.text,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                     ),
                     Expanded(
                       child: TextFormField(
@@ -139,6 +155,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         focusNode: _imageUrlFocusNode,
                         onFieldSubmitted: (_) => _saveForm,
                         onSaved: (value) => createProduct(imageUrl: value),
+                        validator: (value) => FormValidator.checkUrl(value),
                       ),
                     )
                   ],
