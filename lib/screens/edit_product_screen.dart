@@ -23,18 +23,36 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
+  late Products _productsData;
+
   var _editedProduct = Product(
-    id: DateTime.now().toString(),
+    id: null,
     title: '',
     description: '',
     price: 0.0,
     imageUrl: '',
   );
 
+  var _isInit = true;
+
   @override
   void initState() {
     super.initState();
     _imageUrlFocusNode.addListener(_updateImageUrl);
+    _productsData = Provider.of<Products>(context, listen: false);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      final productId = ModalRoute.of(context)?.settings.arguments as String?;
+      if (productId != null) {
+        _editedProduct = _productsData.findById(productId);
+        _imageUrlController.text = _editedProduct.imageUrl;
+      }
+    }
+    _isInit = false;
   }
 
   void _updateImageUrl() {
@@ -56,7 +74,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
     _formKey.currentState?.save();
-    Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    if (_editedProduct.id == null) {
+      _productsData.addProduct(_editedProduct);
+    } else {
+      _productsData.updateProduct(_editedProduct.id, _editedProduct);
+    }
     Navigator.of(context).pop();
   }
 
@@ -67,7 +89,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     String? imageUrl,
   }) {
     _editedProduct = Product(
-      id: DateTime.now().toString(),
+      id: _editedProduct.id,
       title: title ?? _editedProduct.title,
       description: description ?? _editedProduct.description,
       price: price ?? _editedProduct.price,
@@ -105,6 +127,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             child: Column(
               children: [
                 TextFormField(
+                  initialValue: _editedProduct.title,
                   decoration: const InputDecoration(labelText: constants.title),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) => _priceFocusNode.requestFocus(),
@@ -112,6 +135,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   validator: (value) => FormValidator.checkTitle(value),
                 ),
                 TextFormField(
+                    initialValue: _editedProduct.price > 0
+                        ? _editedProduct.price.toString()
+                        : "",
                     decoration:
                         const InputDecoration(labelText: constants.price),
                     textInputAction: TextInputAction.next,
@@ -123,6 +149,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         createProduct(price: double.tryParse(value!)),
                     validator: (value) => FormValidator.checkPrice(value)),
                 TextFormField(
+                  initialValue: _editedProduct.description,
                   decoration:
                       const InputDecoration(labelText: constants.description),
                   maxLines: 3,
