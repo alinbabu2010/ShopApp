@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/utils/dimens.dart';
 
+import '../utils/constants.dart';
+
 class CartItem extends StatelessWidget {
   final String id;
   final String productId;
@@ -36,6 +38,27 @@ class CartItem extends StatelessWidget {
       direction: DismissDirection.endToStart,
       onDismissed: (_) {
         Provider.of<Cart>(context, listen: false).removeItem(productId);
+      },
+      confirmDismiss: (_) {
+        return showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text(dismissDialogTitleText),
+            content: const Text(dismissDialogContentText),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: const Text(no)),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: const Text(yes)),
+            ],
+          ),
+        );
       },
       child: Card(
         margin: cartItemCardMargin,

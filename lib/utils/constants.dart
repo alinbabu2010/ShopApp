@@ -12,3 +12,8 @@ const shop = 'Shop';
 const drawerTitle = "Hello Friend!";
 const cartAddedMsg = 'Added item to cart!';
 const undo = 'UNDO';
+const dismissDialogTitleText = 'Are you sure?';
+const dismissDialogContentText =
+    "Do you want to remove the item from the cart?";
+const yes = "Yes";
+const no = "No";
