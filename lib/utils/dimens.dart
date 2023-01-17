@@ -28,3 +28,5 @@ const cartScreenSpaceHeight = 10.0;
 const cartItemCardMargin = EdgeInsets.symmetric(horizontal: 15, vertical: 4);
 const cartItemCardChildPadding = EdgeInsets.all(8);
 const cartItemCircleTextPadding = EdgeInsets.all(4);
+const cartItemDismissContainerPadding = EdgeInsets.only(right: 20);
+const cartItemDismissIconSize = 40.0;

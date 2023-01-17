@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/utils/dimens.dart';
 
 class CartItem extends StatelessWidget {
@@ -19,20 +21,37 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: cartItemCardMargin,
-      child: Padding(
-        padding: cartItemCardChildPadding,
-        child: ListTile(
-          leading: CircleAvatar(
-            child: Padding(
-              padding: cartItemCircleTextPadding,
-              child: FittedBox(child: Text('\$$price')),
+    return Dismissible(
+      key: ValueKey(id),
+      background: Container(
+        color: Theme.of(context).errorColor,
+        alignment: Alignment.centerRight,
+        padding: cartItemDismissContainerPadding,
+        child: const Icon(
+          Icons.delete,
+          color: Colors.white,
+          size: cartItemDismissIconSize,
+        ),
+      ),
+      direction: DismissDirection.endToStart,
+      onDismissed: (_) {
+        Provider.of<Cart>(context, listen: false).removeItem(productId);
+      },
+      child: Card(
+        margin: cartItemCardMargin,
+        child: Padding(
+          padding: cartItemCardChildPadding,
+          child: ListTile(
+            leading: CircleAvatar(
+              child: Padding(
+                padding: cartItemCircleTextPadding,
+                child: FittedBox(child: Text('\$$price')),
+              ),
             ),
+            title: Text(title),
+            subtitle: Text("Total : \$${price * quantity}"),
+            trailing: Text('$quantity x'),
           ),
-          title: Text(title),
-          subtitle: Text("Total : \$${price * quantity}"),
-          trailing: Text('$quantity x'),
         ),
       ),
     );
