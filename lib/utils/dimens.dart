@@ -42,3 +42,6 @@ const ordersItemExpandedContainerPadding = EdgeInsets.symmetric(
   vertical: 2,
   horizontal: 15,
 );
+
+// UserProductItem Widget
+const trailingSizedBoxWidth = 100.0;

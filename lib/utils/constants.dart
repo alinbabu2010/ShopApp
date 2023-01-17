@@ -17,3 +17,5 @@ const dismissDialogContentText =
     "Do you want to remove the item from the cart?";
 const yes = "Yes";
 const no = "No";
+const yourProducts = 'Your Products';
+const manageProducts = 'Manage Products';
