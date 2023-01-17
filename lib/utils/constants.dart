@@ -10,3 +10,5 @@ const yourOrders = 'Your Orders';
 const orders = 'Orders';
 const shop = 'Shop';
 const drawerTitle = "Hello Friend!";
+const cartAddedMsg = 'Added item to cart!';
+const undo = 'UNDO';

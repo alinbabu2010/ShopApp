@@ -2,12 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/product.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
+import 'package:shop_app/utils/constants.dart';
 
 import '../providers/cart.dart';
 import '../utils/dimens.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({Key? key}) : super(key: key);
+
+  void setupSnackBar(BuildContext context, Cart cart, Product product) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(cartAddedMsg),
+        duration: const Duration(seconds: 2),
+        action: SnackBarAction(
+          label: undo,
+          onPressed: () => cart.removeSingleItem(product.id),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +55,14 @@ class ProductItem extends StatelessWidget {
               ),
               trailing: IconButton(
                 icon: const Icon(Icons.shopping_cart),
-                onPressed: () => cart.addItem(
-                  product.id,
-                  product.price,
-                  product.title,
-                ),
+                onPressed: () {
+                  cart.addItem(
+                    product.id,
+                    product.price,
+                    product.title,
+                  );
+                  setupSnackBar(context, cart, product);
+                },
                 color: Theme.of(context).colorScheme.secondary,
               ),
             ),
