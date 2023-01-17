@@ -45,3 +45,9 @@ const ordersItemExpandedContainerPadding = EdgeInsets.symmetric(
 
 // UserProductItem Widget
 const trailingSizedBoxWidth = 100.0;
+
+// EditProductsScreen
+const editProductsPadding = EdgeInsets.all(16.0);
+const editProductsRowContainerMargin = EdgeInsets.only(top: 8, right: 10);
+const editProductsRowContainerWidth = 100.0;
+const editProductsRowContainerHeight = 100.0;
