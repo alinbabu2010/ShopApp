@@ -22,3 +22,9 @@ const badgeContainerConstraints = BoxConstraints(minWidth: 16, minHeight: 16);
 const cartScreenCardMargin = EdgeInsets.all(15);
 const cartScreenCardPadding = EdgeInsets.all(8);
 const cartScreenSpaceWidth = 10.0;
+const cartScreenSpaceHeight = 10.0;
+
+// CartItem Widget
+const cartItemCardMargin = EdgeInsets.symmetric(horizontal: 15, vertical: 4);
+const cartItemCardChildPadding = EdgeInsets.all(8);
+const cartItemCircleTextPadding = EdgeInsets.all(4);
