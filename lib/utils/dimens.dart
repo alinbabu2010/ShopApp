@@ -38,3 +38,7 @@ const productDetailsContainerPadding = EdgeInsets.symmetric(horizontal: 10);
 
 // OrdersItem Widget
 const ordersItemCardMargin = EdgeInsets.all(10);
+const ordersItemExpandedContainerPadding = EdgeInsets.symmetric(
+  vertical: 2,
+  horizontal: 15,
+);
