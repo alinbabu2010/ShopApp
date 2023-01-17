@@ -17,3 +17,8 @@ var productItemContainerRadius = BorderRadius.circular(10.5);
 const badgeContainerPadding = EdgeInsets.all(2.0);
 var badgeContainerBorderRadius = BorderRadius.circular(10.0);
 const badgeContainerConstraints = BoxConstraints(minWidth: 16, minHeight: 16);
+
+// Cart Screen
+const cartScreenCardMargin = EdgeInsets.all(15);
+const cartScreenCardPadding = EdgeInsets.all(8);
+const cartScreenSpaceWidth = 10.0;

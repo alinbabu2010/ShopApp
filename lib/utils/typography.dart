@@ -6,3 +6,4 @@ const emptyMsgTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
   color: Colors.deepOrangeAccent,
 );
+const cardScreenTotalTextStyle = TextStyle(fontSize: 20);
