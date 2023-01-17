@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/utils/constants.dart';
+import 'package:shop_app/widgets/app_drawer.dart';
 import 'package:shop_app/widgets/orders_item.dart';
 
 class OrdersScreen extends StatelessWidget {
@@ -20,6 +21,7 @@ class OrdersScreen extends StatelessWidget {
         itemBuilder: (_, index) => OrdersItem(orderData.orders[index]),
         itemCount: orderData.orders.length,
       ),
+      drawer: const AppDrawer(),
     );
   }
 }
