@@ -1,18 +1,5 @@
 import 'package:flutter/material.dart';
-
-class CartItem {
-  final String id;
-  final String title;
-  final int quantity;
-  final double price;
-
-  CartItem({
-    required this.id,
-    required this.title,
-    required this.quantity,
-    required this.price,
-  });
-}
+import 'package:shop_app/models/cart_item.dart';
 
 class Cart with ChangeNotifier {
   final Map<String, CartItem> _items = {};
