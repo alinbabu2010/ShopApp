@@ -30,3 +30,8 @@ const cartItemCardChildPadding = EdgeInsets.all(8);
 const cartItemCircleTextPadding = EdgeInsets.all(4);
 const cartItemDismissContainerPadding = EdgeInsets.only(right: 20);
 const cartItemDismissIconSize = 40.0;
+
+// ProductDetail Screen
+const productDetailsImageHeight = 300.0;
+const productDetailsSpacingHeight = 10.0;
+const productDetailsContainerPadding = EdgeInsets.symmetric(horizontal: 10);

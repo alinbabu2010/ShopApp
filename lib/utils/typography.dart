@@ -7,3 +7,7 @@ const emptyMsgTextStyle = TextStyle(
   color: Colors.deepOrangeAccent,
 );
 const cardScreenTotalTextStyle = TextStyle(fontSize: 20);
+const productDetailsPriceTextStyle = TextStyle(
+  color: Colors.grey,
+  fontSize: 20,
+);
