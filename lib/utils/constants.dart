@@ -6,3 +6,4 @@ const emptyFavMsg = "No favorites to show. Add some!";
 const yourCart = "Your Cart";
 const total = "Total";
 const orderNow = 'ORDER NOW';
+const yourOrders = 'Your Orders';
