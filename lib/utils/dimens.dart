@@ -35,3 +35,6 @@ const cartItemDismissIconSize = 40.0;
 const productDetailsImageHeight = 300.0;
 const productDetailsSpacingHeight = 10.0;
 const productDetailsContainerPadding = EdgeInsets.symmetric(horizontal: 10);
+
+// OrdersItem Widget
+const ordersItemCardMargin = EdgeInsets.all(10);
