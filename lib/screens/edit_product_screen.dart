@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/providers/product.dart';
 
 import '../utils/constants.dart' as constants;
 import '../utils/dimens.dart' as dimens;
@@ -17,6 +18,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _descriptionFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
+  final _formKey = GlobalKey<FormState>();
+
+  var _editedProduct = Product(
+    id: DateTime.now().toString(),
+    title: '',
+    description: '',
+    price: 0.0,
+    imageUrl: '',
+  );
 
   @override
   void initState() {
@@ -28,6 +38,25 @@ class _EditProductScreenState extends State<EditProductScreen> {
     if (!_imageUrlFocusNode.hasFocus) {
       setState(() {});
     }
+  }
+
+  void _saveForm() {
+    _formKey.currentState?.save();
+  }
+
+  void createProduct({
+    String? title,
+    String? description,
+    double? price,
+    String? imageUrl,
+  }) {
+    _editedProduct = Product(
+      id: DateTime.now().toString(),
+      title: title ?? _editedProduct.title,
+      description: description ?? _editedProduct.description,
+      price: price ?? _editedProduct.price,
+      imageUrl: imageUrl ?? _editedProduct.imageUrl,
+    );
   }
 
   @override
@@ -45,10 +74,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(constants.editProduct),
+        actions: [
+          IconButton(
+            onPressed: _saveForm,
+            icon: const Icon(Icons.save),
+          )
+        ],
       ),
       body: Padding(
         padding: dimens.editProductsPadding,
         child: Form(
+          key: _formKey,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -56,6 +92,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   decoration: const InputDecoration(labelText: constants.title),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) => _priceFocusNode.requestFocus(),
+                  onSaved: (value) => createProduct(title: value),
                 ),
                 TextFormField(
                   decoration: const InputDecoration(labelText: constants.price),
@@ -63,6 +100,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   keyboardType: TextInputType.number,
                   focusNode: _priceFocusNode,
                   onFieldSubmitted: (_) => _descriptionFocusNode.requestFocus(),
+                  onSaved: (value) =>
+                      createProduct(price: double.tryParse(value!)),
                 ),
                 TextFormField(
                   decoration:
@@ -70,6 +109,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   maxLines: 3,
                   keyboardType: TextInputType.multiline,
                   focusNode: _descriptionFocusNode,
+                  onSaved: (value) => createProduct(description: value),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -83,11 +123,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       child: _imageUrlController.text.isEmpty
                           ? const Text(constants.enterImageUrl)
                           : FittedBox(
-                              child: Image.network(
-                                _imageUrlController.text,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                        child: Image.network(
+                          _imageUrlController.text,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                     Expanded(
                       child: TextFormField(
@@ -97,6 +137,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         textInputAction: TextInputAction.done,
                         controller: _imageUrlController,
                         focusNode: _imageUrlFocusNode,
+                        onFieldSubmitted: (_) => _saveForm,
+                        onSaved: (value) => createProduct(imageUrl: value),
                       ),
                     )
                   ],
