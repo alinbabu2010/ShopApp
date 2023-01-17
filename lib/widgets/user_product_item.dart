@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/utils/dimens.dart';
 
 class UserProductItem extends StatelessWidget {
+  final String? id;
   final String title;
   final String imageUrl;
 
   const UserProductItem(
+    this.id,
     this.title,
     this.imageUrl, {
     Key? key,

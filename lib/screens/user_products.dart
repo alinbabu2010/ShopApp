@@ -34,7 +34,7 @@ class UserProductsScreen extends StatelessWidget {
             var product = productsData.items[index];
             return Column(
               children: [
-                UserProductItem(product.title, product.imageUrl),
+                UserProductItem(product.id, product.title, product.imageUrl),
                 const Divider(color: Colors.black45),
               ],
             );
