@@ -79,15 +79,35 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _isLoading = true;
     });
     if (_editedProduct.id == null) {
-      _productsData.addProduct(_editedProduct).then((_) {
-        Navigator.of(context).pop();
+      _productsData.addProduct(_editedProduct).catchError((error) async {
+        await displayErrorDialog();
+      }).then((_) {
         setState(() {
           _isLoading = false;
         });
+        Navigator.of(context).pop();
       });
     } else {
       _productsData.updateProduct(_editedProduct.id, _editedProduct);
     }
+  }
+
+  Future<void> displayErrorDialog() async {
+    return await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(constants.errorOccurred),
+        content: const Text(constants.somethingWrong),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text(constants.ok),
+          )
+        ],
+      ),
+    );
   }
 
   void createProduct({
