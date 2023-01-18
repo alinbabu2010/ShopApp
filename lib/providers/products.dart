@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shop_app/utils/constants.dart';
+import 'package:shop_app/network/network_manager.dart';
 
 import 'product.dart';
 
@@ -56,11 +53,9 @@ class Products with ChangeNotifier {
   }
 
   void addProduct(Product product) {
-    final url = Uri.https(baseUrl, "/products.json");
-    var parsedData = jsonEncode(product);
-    http.post(url, body: parsedData).then((response) {
+    NetworkManager.addProduct(product).then((productId) {
       final newProduct = Product(
-        id: jsonDecode(response.body)['name'],
+        id: productId,
         title: product.title,
         description: product.description,
         price: product.price,
