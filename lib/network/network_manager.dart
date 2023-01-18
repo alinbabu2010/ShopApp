@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:shop_app/providers/product.dart';
 
 import '../utils/constants.dart';
+import '../utils/extension.dart';
 
 class NetworkManager {
   static Future<String> addProduct(Product product) {
@@ -25,7 +26,7 @@ class NetworkManager {
           description: data["description"],
           price: double.parse(data["price"]),
           imageUrl: data["imageUrl"],
-          isFavorite: data["isFavorite"].parseBool(),
+          isFavorite: data["isFavorite"].toString().parseBool() ,
         ));
       });
       return loadedProducts;

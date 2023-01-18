@@ -29,6 +29,9 @@ class _ProductsOverviewState extends State<ProductsOverview> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
       Provider.of<Products>(context).fetchAndSetProducts().then((_) {
         setState(() {
           _isLoading = false;
