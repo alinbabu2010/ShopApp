@@ -25,3 +25,5 @@ const price = 'Price';
 const description = 'Description';
 const imageUrl = "Image URL";
 const enterImageUrl = "Enter a URL";
+const baseUrl =
+    "flutter-shop-app-e2f5f-default-rtdb.asia-southeast1.firebasedatabase.app";
