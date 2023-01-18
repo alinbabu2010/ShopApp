@@ -34,6 +34,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   );
 
   var _isInit = true;
+  var _isLoading = false;
 
   @override
   void initState() {
@@ -74,12 +75,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
     _formKey.currentState?.save();
+    setState(() {
+      _isLoading = true;
+    });
     if (_editedProduct.id == null) {
-      _productsData.addProduct(_editedProduct);
+      _productsData.addProduct(_editedProduct).then((_) {
+        Navigator.of(context).pop();
+        setState(() {
+          _isLoading = false;
+        });
+      });
     } else {
       _productsData.updateProduct(_editedProduct.id, _editedProduct);
     }
-    Navigator.of(context).pop();
   }
 
   void createProduct({
@@ -119,83 +127,91 @@ class _EditProductScreenState extends State<EditProductScreen> {
           )
         ],
       ),
-      body: Padding(
-        padding: dimens.editProductsPadding,
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                TextFormField(
-                  initialValue: _editedProduct.title,
-                  decoration: const InputDecoration(labelText: constants.title),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) => _priceFocusNode.requestFocus(),
-                  onSaved: (value) => createProduct(title: value),
-                  validator: (value) => FormValidator.checkTitle(value),
-                ),
-                TextFormField(
-                    initialValue: _editedProduct.price > 0
-                        ? _editedProduct.price.toString()
-                        : "",
-                    decoration:
-                        const InputDecoration(labelText: constants.price),
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.number,
-                    focusNode: _priceFocusNode,
-                    onFieldSubmitted: (_) =>
-                        _descriptionFocusNode.requestFocus(),
-                    onSaved: (value) =>
-                        createProduct(price: double.tryParse(value!)),
-                    validator: (value) => FormValidator.checkPrice(value)),
-                TextFormField(
-                  initialValue: _editedProduct.description,
-                  decoration:
-                      const InputDecoration(labelText: constants.description),
-                  maxLines: 3,
-                  keyboardType: TextInputType.multiline,
-                  focusNode: _descriptionFocusNode,
-                  onSaved: (value) => createProduct(description: value),
-                  validator: (value) => FormValidator.checkDescription(value),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: dimens.editProductsRowContainerWidth,
-                      height: dimens.editProductsRowContainerHeight,
-                      margin: dimens.editProductsRowContainerMargin,
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: Colors.grey)),
-                      child: _imageUrlController.text.isEmpty
-                          ? const Text(constants.enterImageUrl)
-                          : FittedBox(
-                              child: Image.network(
-                                _imageUrlController.text,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                    ),
-                    Expanded(
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                            labelText: constants.imageUrl),
-                        keyboardType: TextInputType.url,
-                        textInputAction: TextInputAction.done,
-                        controller: _imageUrlController,
-                        focusNode: _imageUrlFocusNode,
-                        onFieldSubmitted: (_) => _saveForm,
-                        onSaved: (value) => createProduct(imageUrl: value),
-                        validator: (value) => FormValidator.checkUrl(value),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: dimens.editProductsPadding,
+              child: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        initialValue: _editedProduct.title,
+                        decoration:
+                            const InputDecoration(labelText: constants.title),
+                        textInputAction: TextInputAction.next,
+                        onFieldSubmitted: (_) => _priceFocusNode.requestFocus(),
+                        onSaved: (value) => createProduct(title: value),
+                        validator: (value) => FormValidator.checkTitle(value),
                       ),
-                    )
-                  ],
-                )
-              ],
+                      TextFormField(
+                          initialValue: _editedProduct.price > 0
+                              ? _editedProduct.price.toString()
+                              : "",
+                          decoration:
+                              const InputDecoration(labelText: constants.price),
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          focusNode: _priceFocusNode,
+                          onFieldSubmitted: (_) =>
+                              _descriptionFocusNode.requestFocus(),
+                          onSaved: (value) =>
+                              createProduct(price: double.tryParse(value!)),
+                          validator: (value) =>
+                              FormValidator.checkPrice(value)),
+                      TextFormField(
+                        initialValue: _editedProduct.description,
+                        decoration: const InputDecoration(
+                            labelText: constants.description),
+                        maxLines: 3,
+                        keyboardType: TextInputType.multiline,
+                        focusNode: _descriptionFocusNode,
+                        onSaved: (value) => createProduct(description: value),
+                        validator: (value) =>
+                            FormValidator.checkDescription(value),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: dimens.editProductsRowContainerWidth,
+                            height: dimens.editProductsRowContainerHeight,
+                            margin: dimens.editProductsRowContainerMargin,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 1, color: Colors.grey)),
+                            child: _imageUrlController.text.isEmpty
+                                ? const Text(constants.enterImageUrl)
+                                : FittedBox(
+                                    child: Image.network(
+                                      _imageUrlController.text,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                  labelText: constants.imageUrl),
+                              keyboardType: TextInputType.url,
+                              textInputAction: TextInputAction.done,
+                              controller: _imageUrlController,
+                              focusNode: _imageUrlFocusNode,
+                              onFieldSubmitted: (_) => _saveForm,
+                              onSaved: (value) =>
+                                  createProduct(imageUrl: value),
+                              validator: (value) =>
+                                  FormValidator.checkUrl(value),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

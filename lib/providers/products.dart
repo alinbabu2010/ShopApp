@@ -52,8 +52,8 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
-  void addProduct(Product product) {
-    NetworkManager.addProduct(product).then((productId) {
+  Future<void> addProduct(Product product) {
+    return NetworkManager.addProduct(product).then((productId) {
       final newProduct = Product(
         id: productId,
         title: product.title,
