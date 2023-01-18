@@ -57,17 +57,18 @@ class Products with ChangeNotifier {
 
   void addProduct(Product product) {
     final url = Uri.https(baseUrl, "/products.json");
-    final newProduct = Product(
-      id: DateTime.now().toString(),
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      imageUrl: product.imageUrl,
-    );
-    var parsedData = jsonEncode(newProduct);
-    http.post(url, body: parsedData);
-    _items.insert(0, newProduct);
-    notifyListeners();
+    var parsedData = jsonEncode(product);
+    http.post(url, body: parsedData).then((response) {
+      final newProduct = Product(
+        id: jsonDecode(response.body)['name'],
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+      );
+      _items.insert(0, newProduct);
+      notifyListeners();
+    });
   }
 
   void updateProduct(String? id, Product product) {
