@@ -20,11 +20,21 @@ class Products with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
-  void toggleFavorite(String? id) {
-    final existingProductIndex =
-        _items.indexWhere((product) => product.id == id);
-    _items[existingProductIndex].isFavorite =
-        !_items[existingProductIndex].isFavorite;
+  Future<void> toggleFavorite(String? id) async {
+    final productIndex = _items.indexWhere((product) => product.id == id);
+    _setFavorites(productIndex);
+    if (productIndex >= 0) {
+      return NetworkManager.updateProduct(id!, _items[productIndex])
+          .then((response) {
+        if (response.statusCode >= 400) {
+          _setFavorites(productIndex);
+        }
+      }).catchError((value) => _setFavorites(productIndex));
+    }
+  }
+
+  void _setFavorites(int productIndex) {
+    _items[productIndex].isFavorite = !_items[productIndex].isFavorite;
     notifyListeners();
   }
 
