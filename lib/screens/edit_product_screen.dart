@@ -69,26 +69,30 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
+  void _setLoader(bool isLoading) {
+    setState(() {
+      _isLoading = isLoading;
+    });
+    if (!isLoading) {
+      Navigator.of(context).pop();
+    }
+  }
+
   void _saveForm() {
     var isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) {
       return;
     }
     _formKey.currentState?.save();
-    setState(() {
-      _isLoading = true;
-    });
+    _setLoader(true);
     if (_editedProduct.id == null) {
       _productsData.addProduct(_editedProduct).catchError((error) async {
         await displayErrorDialog();
-      }).then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
-      });
+      }).then((_) => _setLoader(false));
     } else {
-      _productsData.updateProduct(_editedProduct.id, _editedProduct);
+      _productsData
+          .updateProduct(_editedProduct.id, _editedProduct)
+          .then((_) => _setLoader(false));
     }
   }
 
