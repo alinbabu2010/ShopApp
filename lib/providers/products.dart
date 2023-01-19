@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/http_exception.dart';
 import 'package:shop_app/network/network_manager.dart';
 
 import 'product.dart';
@@ -55,8 +56,18 @@ class Products with ChangeNotifier {
     return Future.value(null);
   }
 
-  void deleteProduct(String? id) {
-    _items.removeWhere((product) => product.id == id);
+  Future<void> deleteProduct(String? id) async {
+    final existingProductIndex =
+        _items.indexWhere((product) => product.id == id);
+    Product? existingProduct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
     notifyListeners();
+    final response = await NetworkManager.deleteProduct(id!);
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException("Could not delete product");
+    }
+    existingProduct = null;
   }
 }
