@@ -36,7 +36,7 @@ class NetworkManager {
     }
   }
 
-  static Future<void> updateProduct(String productId, Product product) {
+  static Future<Response> updateProduct(String productId, Product product) {
     final uri = _createUrl("/products/$productId.json");
     return patch(uri, body: jsonEncode(product));
   }
