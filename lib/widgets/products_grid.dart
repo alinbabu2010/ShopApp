@@ -5,7 +5,7 @@ import 'package:shop_app/utils/constants.dart';
 import 'package:shop_app/utils/typography.dart';
 import 'package:shop_app/widgets/product_item.dart';
 
-import '../providers/product.dart';
+import '../models/product.dart';
 import '../utils/dimens.dart';
 
 class ProductsGrid extends StatelessWidget {
@@ -30,11 +30,8 @@ class ProductsGrid extends StatelessWidget {
       gridDelegate: productOverviewGridDelegate,
       padding: productOverviewGridPadding,
       itemBuilder: (context, index) {
-        // Use ChangeNotifierProvider.value for lists and grids
-        return ChangeNotifierProvider.value(
-          value: products[index],
-          child: const ProductItem(),
-        );
+        final product = products[index];
+        return ProductItem(product);
       },
       itemCount: products.length,
     );

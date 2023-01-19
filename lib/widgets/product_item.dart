@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/product.dart';
+import 'package:shop_app/models/product.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 import 'package:shop_app/utils/constants.dart';
 
 import '../providers/cart.dart';
+import '../providers/products.dart';
 import '../utils/dimens.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({Key? key}) : super(key: key);
+  final Product product;
+
+  const ProductItem(this.product, {Key? key}) : super(key: key);
 
   void setupSnackBar(BuildContext context, Cart cart, Product product) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -28,6 +31,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cart = Provider.of<Cart>(context, listen: false);
+    final productData = Provider.of<Products>(context);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -38,17 +42,18 @@ class ProductItem extends StatelessWidget {
       child: ClipRRect(
         borderRadius: productItemClipRadius,
         clipBehavior: Clip.hardEdge,
-        child: Consumer<Product>(
-          builder: (context, product, child) => GridTile(
-            footer: GridTileBar(
-              leading: IconButton(
-                icon: Icon(
-                  product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                ),
-                onPressed: () => product.toggleFavorite(),
-                color: theme.colorScheme.secondary,
+        child: GridTile(
+          footer: GridTileBar(
+            leading: IconButton(
+              icon: Icon(
+                product.isFavorite ? Icons.favorite : Icons.favorite_border,
               ),
-              backgroundColor: Colors.black87,
+              onPressed: () {
+                productData.toggleFavorite(product.id);
+              },
+              color: theme.colorScheme.secondary,
+            ),
+            backgroundColor: Colors.black87,
               title: Text(
                 product.title,
                 textAlign: TextAlign.center,
@@ -73,7 +78,6 @@ class ProductItem extends StatelessWidget {
               child: Image.network(product.imageUrl, fit: BoxFit.cover),
             ),
           ),
-        ),
       ),
     );
   }

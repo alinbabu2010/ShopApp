@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/models/http_exception.dart';
 import 'package:shop_app/network/network_manager.dart';
 
-import 'product.dart';
+import '../models/product.dart';
 
 class Products with ChangeNotifier {
   final List<Product> _items = [];
@@ -18,6 +18,16 @@ class Products with ChangeNotifier {
   /// Returns [Product] that matches the given [id]
   Product findById(String id) {
     return _items.firstWhere((product) => product.id == id);
+  }
+
+  void toggleFavorite(String? id) {
+    for (var product in _items) {
+      if (product.id == id) {
+        print(product.id);
+        product.isFavorite = !product.isFavorite;
+      }
+    }
+    notifyListeners();
   }
 
   Future<void> fetchAndSetProducts() async {
