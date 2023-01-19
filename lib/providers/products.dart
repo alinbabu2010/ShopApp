@@ -54,7 +54,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetProducts() async {
     return await NetworkManager.fetchProducts().then((products) {
-      print(products);
+      _items.clear();
       _items.addAll(products);
       notifyListeners();
     });
