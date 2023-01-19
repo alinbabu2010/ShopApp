@@ -26,13 +26,18 @@ class NetworkManager {
           description: data["description"],
           price: double.parse(data["price"]),
           imageUrl: data["imageUrl"],
-          isFavorite: data["isFavorite"].toString().parseBool() ,
+          isFavorite: data["isFavorite"].toString().parseBool(),
         ));
       });
       return loadedProducts;
     } catch (error) {
       rethrow;
     }
+  }
+
+  static Future<void> updateProduct(String productId, Product product) {
+    final uri = _createUrl("/products/$productId.json");
+    return patch(uri, body: jsonEncode(product));
   }
 
   static Uri _createUrl(String path) {
