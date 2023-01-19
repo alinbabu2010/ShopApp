@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:shop_app/providers/product.dart';
+import 'package:shop_app/models/product.dart';
 
 import '../utils/constants.dart';
 import '../utils/extension.dart';
