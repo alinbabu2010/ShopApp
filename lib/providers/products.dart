@@ -21,12 +21,10 @@ class Products with ChangeNotifier {
   }
 
   void toggleFavorite(String? id) {
-    for (var product in _items) {
-      if (product.id == id) {
-        print(product.id);
-        product.isFavorite = !product.isFavorite;
-      }
-    }
+    final existingProductIndex =
+        _items.indexWhere((product) => product.id == id);
+    _items[existingProductIndex].isFavorite =
+        !_items[existingProductIndex].isFavorite;
     notifyListeners();
   }
 
