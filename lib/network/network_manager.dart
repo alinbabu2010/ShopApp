@@ -20,14 +20,15 @@ class NetworkManager {
       final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
       extractedData.forEach((productId, data) {
-        loadedProducts.add(Product(
+        var product = Product(
           id: productId,
           title: data["title"],
           description: data["description"],
           price: double.parse(data["price"]),
           imageUrl: data["imageUrl"],
-          isFavorite: data["isFavorite"].toString().parseBool(),
-        ));
+        );
+        product.isFavorite = data["isFavorite"].toString().parseBool();
+        loadedProducts.add(product);
       });
       return loadedProducts;
     } catch (error) {
