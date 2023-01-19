@@ -40,6 +40,11 @@ class NetworkManager {
     return patch(uri, body: jsonEncode(product));
   }
 
+  static Future<Response> deleteProduct(String productId) async {
+    final uri = _createUrl("/products/$productId.json");
+    return await delete(uri);
+  }
+
   static Uri _createUrl(String path) {
     return Uri.https(baseUrl, path);
   }
