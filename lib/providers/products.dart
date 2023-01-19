@@ -43,13 +43,16 @@ class Products with ChangeNotifier {
     });
   }
 
-  void updateProduct(String? id, Product product) {
+  Future<void> updateProduct(String? id, Product product) {
     final productIndex = _items.indexWhere((product) => product.id == id);
     if (productIndex >= 0) {
-      product.isFavorite = _items[productIndex].isFavorite;
-      _items[productIndex] = product;
-      notifyListeners();
+      return NetworkManager.updateProduct(id!, product).then((value) {
+        product.isFavorite = _items[productIndex].isFavorite;
+        _items[productIndex] = product;
+        notifyListeners();
+      });
     }
+    return Future.value(null);
   }
 
   void deleteProduct(String? id) {
