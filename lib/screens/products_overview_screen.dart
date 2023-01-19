@@ -41,6 +41,13 @@ class _ProductsOverviewState extends State<ProductsOverview> {
     _isInit = false;
   }
 
+  Future<void> _fetchProducts() async {
+    Provider.of<Products>(
+      context,
+      listen: false,
+    ).fetchAndSetProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +91,10 @@ class _ProductsOverviewState extends State<ProductsOverview> {
         ),
         body: _isLoading
             ? const Center(child: CircularProgressIndicator())
-            : ProductsGrid(showFavorites: _showOnlyFavorites),
+            : RefreshIndicator(
+                onRefresh: _fetchProducts,
+                child: ProductsGrid(showFavorites: _showOnlyFavorites),
+              ),
         drawer: const AppDrawer());
   }
 }
