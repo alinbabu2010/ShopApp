@@ -7,6 +7,7 @@ import 'package:shop_app/widgets/badge.dart';
 
 import '../providers/cart.dart';
 import '../providers/products.dart';
+import '../widgets/empty_msg.dart';
 import '../widgets/products_grid.dart';
 
 enum FilterOptions { favorites, all }
@@ -22,34 +23,20 @@ class ProductsOverview extends StatefulWidget {
 
 class _ProductsOverviewState extends State<ProductsOverview> {
   var _showOnlyFavorites = false;
-  var _isInit = true;
-  var _isLoading = false;
 
-  void _setLoader(bool isLoading) {
-    setState(() {
-      _isLoading = isLoading;
-    });
-  }
+  late Future _productsFuture;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_isInit) {
-      _setLoader(true);
-      Provider.of<Products>(context).fetchAndSetProducts().then((_) {
-        _setLoader(false);
-      }).catchError((_) {
-        _setLoader(false);
-      });
-    }
-    _isInit = false;
-  }
-
-  Future<void> _fetchProducts() async {
+  Future<void> _obtainProductsFuture() async {
     Provider.of<Products>(
       context,
       listen: false,
     ).fetchAndSetProducts();
+  }
+
+  @override
+  void initState() {
+    _productsFuture = _obtainProductsFuture();
+    super.initState();
   }
 
   @override
@@ -93,12 +80,22 @@ class _ProductsOverviewState extends State<ProductsOverview> {
             )
           ],
         ),
-        body: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : RefreshIndicator(
-                onRefresh: _fetchProducts,
-                child: ProductsGrid(showFavorites: _showOnlyFavorites),
-              ),
+        body: FutureBuilder(
+            future: _productsFuture,
+            builder: (context, dataSnapshot) {
+              if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                if (dataSnapshot.hasError) {
+                  return EmptyMsgWidget(message: dataSnapshot.error.toString());
+                } else {
+                  return RefreshIndicator(
+                    onRefresh: _obtainProductsFuture,
+                    child: ProductsGrid(showFavorites: _showOnlyFavorites),
+                  );
+                }
+              }
+            }),
         drawer: const AppDrawer());
   }
 }
