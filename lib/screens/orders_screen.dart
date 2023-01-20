@@ -5,6 +5,8 @@ import 'package:shop_app/utils/constants.dart' as constants;
 import 'package:shop_app/widgets/app_drawer.dart';
 import 'package:shop_app/widgets/orders_item.dart';
 
+import '../widgets/empty_msg.dart';
+
 class OrdersScreen extends StatefulWidget {
   static const routeName = "/orders_screen";
 
@@ -47,15 +49,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
           : RefreshIndicator(
               onRefresh: () => orderData.fetchOrders(),
               child: orderData.orders.isEmpty
-                  ? SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.8,
-                        child: const Center(
-                          child: Text(constants.emptyOrders),
-                        ),
-                      ),
-                    )
+                  ? const EmptyMsgWidget(message: constants.emptyOrders)
                   : ListView.builder(
                       itemBuilder: (_, index) =>
                           OrdersItem(orderData.orders[index]),
