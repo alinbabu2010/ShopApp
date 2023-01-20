@@ -1,5 +1,3 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of '../product.dart';
 
 // **************************************************************************
@@ -10,9 +8,9 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       id: json['id'] as String?,
       title: json['title'] as String,
       description: json['description'] as String,
-      price: (json['price'] as num).toDouble(),
+      price: double.parse(json['price'].toString()),
       imageUrl: json['imageUrl'] as String,
-      isFavorite: json['isFavorite'] as bool,
+      isFavorite: json['isFavorite'].toString().parseBool(),
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{

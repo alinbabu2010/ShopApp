@@ -1,5 +1,3 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of '../order_item.dart';
 
 // **************************************************************************
@@ -8,7 +6,7 @@ part of '../order_item.dart';
 
 OrderItem _$OrderItemFromJson(Map<String, dynamic> json) => OrderItem(
       json['id'] as String?,
-      (json['amount'] as num).toDouble(),
+      double.parse(json['amount'].toString()),
       (json['products'] as List<dynamic>)
           .map((e) => CartItem.fromJson(e as Map<String, dynamic>))
           .toList(),
