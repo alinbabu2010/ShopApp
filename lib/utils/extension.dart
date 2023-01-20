@@ -8,4 +8,8 @@ extension BoolParsing on String {
 
     throw '"$this" can not be parsed to boolean.';
   }
+
+  DateTime parseDate() {
+    return DateTime.parse(this);
+  }
 }
