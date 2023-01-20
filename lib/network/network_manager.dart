@@ -7,7 +7,7 @@ import 'package:shop_app/models/product.dart';
 import '../models/http_exception.dart';
 import '../models/order_item.dart';
 import '../models/parsers/order_item_parser.dart';
-import '../utils/constants.dart';
+import '../utils/constants.dart' as constants;
 
 class NetworkManager {
   static Future<String> addProduct(Product product) {
@@ -41,13 +41,13 @@ class NetworkManager {
     try {
       var response = await post(uri, body: jsonEncode(orderItem));
       if (response.statusCode >= 400) {
-        throw HttpException("Could not place your order. Try again!");
+        throw HttpException(constants.orderErrorMsg);
       } else {
-        orderItem.id = jsonDecode(response.body)['name'];
+        orderItem.id = jsonDecode(response.body)[constants.nameKey];
       }
       return orderItem;
     } catch (_) {
-      throw HttpException("Could not place your order. Try again!");
+      throw HttpException(constants.orderErrorMsg);
     }
   }
 
@@ -62,6 +62,6 @@ class NetworkManager {
   }
 
   static Uri _createUrl(String path) {
-    return Uri.https(baseUrl, path);
+    return Uri.https(constants.baseUrl, path);
   }
 }

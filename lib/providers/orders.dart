@@ -3,6 +3,7 @@ import 'package:shop_app/models/cart_item.dart';
 import 'package:shop_app/models/order_item.dart';
 import 'package:shop_app/network/network_manager.dart';
 
+import '../utils/constants.dart' as constants;
 
 class Orders with ChangeNotifier {
   final List<OrderItem> _orders = [];
@@ -29,6 +30,6 @@ class Orders with ChangeNotifier {
     var savedOrder = await NetworkManager.addOrders(orderItem);
     _orders.insert(0, savedOrder);
     notifyListeners();
-    return "Your order successfully placed";
+    return constants.orderSuccessMsg;
   }
 }

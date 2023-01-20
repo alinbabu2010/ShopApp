@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/orders.dart';
-import 'package:shop_app/utils/constants.dart';
+import 'package:shop_app/utils/constants.dart' as constants;
 import 'package:shop_app/widgets/app_drawer.dart';
 import 'package:shop_app/widgets/orders_item.dart';
 
@@ -40,7 +40,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(yourOrders),
+        title: const Text(constants.yourOrders),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -52,7 +52,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.8,
                         child: const Center(
-                          child: Text("No orders to show."),
+                          child: Text(constants.emptyOrders),
                         ),
                       ),
                     )

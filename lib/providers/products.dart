@@ -3,6 +3,7 @@ import 'package:shop_app/models/http_exception.dart';
 import 'package:shop_app/network/network_manager.dart';
 
 import '../models/product.dart';
+import '../utils/constants.dart' as constants;
 
 class Products with ChangeNotifier {
   final List<Product> _items = [];
@@ -86,7 +87,7 @@ class Products with ChangeNotifier {
     if (response.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProduct);
       notifyListeners();
-      throw HttpException("Could not delete product");
+      throw HttpException(constants.deleteErrorMsg);
     }
     existingProduct = null;
   }

@@ -1,5 +1,7 @@
 const appName = "MyShop";
 const latoFont = "Lato";
+const baseUrl =
+    "flutter-shop-app-e2f5f-default-rtdb.asia-southeast1.firebasedatabase.app";
 const onlyFavorites = "Only Favorites";
 const showAll = "Show All";
 const emptyFavMsg = "No favorites to show. Add some!";
@@ -25,8 +27,11 @@ const price = 'Price';
 const description = 'Description';
 const imageUrl = "Image URL";
 const enterImageUrl = "Enter a URL";
-const baseUrl =
-    "flutter-shop-app-e2f5f-default-rtdb.asia-southeast1.firebasedatabase.app";
+const ok = "OK";
+const nameKey = "name";
 const errorOccurred = "An error occurred!";
 const somethingWrong = "Something went wrong..";
-const ok = "OK";
+const emptyOrders = "No orders to show.";
+const orderErrorMsg = "Could not place your order. Try again!";
+const orderSuccessMsg = "Your order successfully placed";
+const deleteErrorMsg = "Could not delete product";
