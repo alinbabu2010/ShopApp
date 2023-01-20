@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:shop_app/models/parsers/product_parser.dart';
 import 'package:shop_app/models/product.dart';
 
+import '../models/http_exception.dart';
 import '../models/order_item.dart';
 import '../models/parsers/order_item_parser.dart';
 import '../utils/constants.dart';
@@ -35,9 +36,19 @@ class NetworkManager {
     return await delete(uri);
   }
 
-  static Future<Response> addOrders(OrderItem orderItem) async {
+  static Future<OrderItem> addOrders(OrderItem orderItem) async {
     final uri = _createUrl("/orders.json");
-    return await post(uri, body: jsonEncode(orderItem));
+    try {
+      var response = await post(uri, body: jsonEncode(orderItem));
+      if (response.statusCode >= 400) {
+        throw HttpException("Could not place your order. Try again!");
+      } else {
+        orderItem.id = jsonDecode(response.body)['name'];
+      }
+      return orderItem;
+    } catch (_) {
+      throw HttpException("Could not place your order. Try again!");
+    }
   }
 
   static Future<List<OrderItem>> fetchOrders() async {
