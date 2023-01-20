@@ -5,8 +5,8 @@ import 'package:shop_app/models/parsers/product_parser.dart';
 import 'package:shop_app/models/product.dart';
 
 import '../models/order_item.dart';
+import '../models/parsers/order_item_parser.dart';
 import '../utils/constants.dart';
-import '../utils/extension.dart';
 
 class NetworkManager {
   static Future<String> addProduct(Product product) {
@@ -38,6 +38,16 @@ class NetworkManager {
   static Future<Response> addOrders(OrderItem orderItem) async {
     final uri = _createUrl("/orders.json");
     return await post(uri, body: jsonEncode(orderItem));
+  }
+
+  static Future<List<OrderItem>> fetchOrders() async {
+    final uri = _createUrl("/orders.json");
+    try {
+      var response = await get(uri);
+      return OrderItemParser.newInstance().parseOrderItem(response);
+    } catch (error) {
+      rethrow;
+    }
   }
 
   static Uri _createUrl(String path) {
