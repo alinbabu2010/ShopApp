@@ -4,28 +4,10 @@ import 'package:shop_app/screens/products_overview_screen.dart';
 import 'package:shop_app/screens/user_products_screen.dart';
 import 'package:shop_app/utils/constants.dart';
 
+import 'drawer_item.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
-
-  Widget buildDrawerItems(
-    BuildContext context,
-    IconData icon,
-    String title,
-    String route,
-  ) {
-    return Column(
-      children: [
-        const Divider(),
-        ListTile(
-          leading: Icon(icon),
-          title: Text(title),
-          onTap: () {
-            Navigator.of(context).pushReplacementNamed(route);
-          },
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +20,17 @@ class AppDrawer extends StatelessWidget {
               title: const Text(drawerTitle),
               automaticallyImplyLeading: false,
             ),
-            buildDrawerItems(
-              context,
+            const DrawerItem(
               Icons.shop,
               shop,
               ProductsOverview.routeName,
             ),
-            buildDrawerItems(
-              context,
+            const DrawerItem(
               Icons.payment,
               orders,
               OrdersScreen.routeName,
             ),
-            buildDrawerItems(
-              context,
+            const DrawerItem(
               Icons.edit,
               yourProducts,
               UserProductsScreen.routeName,
