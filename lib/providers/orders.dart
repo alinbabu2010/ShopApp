@@ -14,6 +14,14 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
+  Future<void> fetchOrders() async {
+    return NetworkManager.fetchOrders().then((orders) {
+      _orders.clear();
+      _orders.addAll(orders);
+      notifyListeners();
+    });
+  }
+
   Future<String> addOrder(List<CartItem> cartProducts, double total) async {
     var orderItem = OrderItem(
       null,
