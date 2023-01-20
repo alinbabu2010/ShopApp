@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:shop_app/models/parsers/product_parser.dart';
 import 'package:shop_app/models/product.dart';
 
 import '../models/order_item.dart';
@@ -18,20 +19,7 @@ class NetworkManager {
     var uri = _createUrl("/products.json");
     try {
       final response = await get(uri);
-      final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
-      final List<Product> loadedProducts = [];
-      extractedData.forEach((productId, data) {
-        var product = Product(
-          id: productId,
-          title: data["title"],
-          description: data["description"],
-          price: double.parse(data["price"]),
-          imageUrl: data["imageUrl"],
-        );
-        product.isFavorite = data["isFavorite"].toString().parseBool();
-        loadedProducts.add(product);
-      });
-      return loadedProducts;
+      return ProductParser().parseProduct(response);
     } catch (error) {
       rethrow;
     }
