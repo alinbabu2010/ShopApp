@@ -16,6 +16,7 @@ class ProductParser {
       final List<Product> loadedProducts = [];
       extractedData.forEach((productId, data) {
         var product = Product.fromJson(data);
+        product.id ??= productId;
         product.isFavorite = data["isFavorite"].toString().parseBool();
         loadedProducts.add(product);
       });
