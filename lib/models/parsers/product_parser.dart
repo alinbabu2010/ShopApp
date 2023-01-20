@@ -11,13 +11,17 @@ class ProductParser {
   ProductParser();
 
   List<Product> parseProduct(Response response) {
-    final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
-    final List<Product> loadedProducts = [];
-    extractedData.forEach((productId, data) {
-      var product = Product.fromJson(data);
-      product.isFavorite = data["isFavorite"].toString().parseBool();
-      loadedProducts.add(product);
-    });
-    return loadedProducts;
+    try {
+      final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
+      final List<Product> loadedProducts = [];
+      extractedData.forEach((productId, data) {
+        var product = Product.fromJson(data);
+        product.isFavorite = data["isFavorite"].toString().parseBool();
+        loadedProducts.add(product);
+      });
+      return loadedProducts;
+    } catch (error) {
+      return List.empty();
+    }
   }
 }

@@ -2,25 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/utils/constants.dart';
-import 'package:shop_app/utils/typography.dart';
 import 'package:shop_app/widgets/product_item.dart';
 
 import '../models/product.dart';
 import '../utils/dimens.dart';
+import 'empty_msg.dart';
 
 class ProductsGrid extends StatelessWidget {
   final bool showFavorites;
 
   const ProductsGrid({Key? key, required this.showFavorites}) : super(key: key);
-
-  Widget buildEmptyMessageWidget() {
-    return const Center(
-      child: Text(
-        emptyFavMsg,
-        style: emptyMsgTextStyle,
-      ),
-    );
-  }
 
   Widget buildGridView(
     BuildContext context,
@@ -43,7 +34,7 @@ class ProductsGrid extends StatelessWidget {
     final products =
         showFavorites ? productsData.favoriteItems : productsData.items;
     return products.isEmpty
-        ? buildEmptyMessageWidget()
+        ? EmptyMsgWidget(message: showFavorites ? emptyFavMsg : emptyProductMsg)
         : buildGridView(context, products);
   }
 }

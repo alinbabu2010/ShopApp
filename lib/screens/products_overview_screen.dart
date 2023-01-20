@@ -25,17 +25,21 @@ class _ProductsOverviewState extends State<ProductsOverview> {
   var _isInit = true;
   var _isLoading = false;
 
+  void _setLoader(bool isLoading) {
+    setState(() {
+      _isLoading = isLoading;
+    });
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
+      _setLoader(true);
       Provider.of<Products>(context).fetchAndSetProducts().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
+        _setLoader(false);
+      }).catchError((_) {
+        _setLoader(false);
       });
     }
     _isInit = false;
