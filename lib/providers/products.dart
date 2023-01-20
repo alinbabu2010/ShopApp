@@ -29,7 +29,9 @@ class Products with ChangeNotifier {
         if (response.statusCode >= 400) {
           _setFavorites(productIndex);
         }
-      }).catchError((value) => _setFavorites(productIndex));
+      }).catchError((value) {
+        _setFavorites(productIndex);
+      });
     }
   }
 
