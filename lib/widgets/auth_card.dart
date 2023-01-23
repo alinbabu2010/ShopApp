@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/models/http_exception.dart';
 
 import '../providers/auth.dart';
 import '../utils/constants.dart' as constants;
@@ -35,6 +36,22 @@ class _AuthCardState extends State<AuthCard> {
     });
   }
 
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text(constants.errorOccurred),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text(constants.ok),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _submit() async {
     if (_formKey.currentState?.validate() == false) {
       // Invalid!
@@ -43,16 +60,22 @@ class _AuthCardState extends State<AuthCard> {
     _formKey.currentState?.save();
     final authProvider = Provider.of<Auth>(context, listen: false);
     _setLoader(true);
-    if (_authMode == AuthMode.login) {
-      await authProvider.signIn(
-        _authData[constants.emailKey]!,
-        _authData[constants.passwordKey]!,
-      );
-    } else {
-      await authProvider.signup(
-        _authData[constants.emailKey]!,
-        _authData[constants.passwordKey]!,
-      );
+    try {
+      if (_authMode == AuthMode.login) {
+        await authProvider.signIn(
+          _authData[constants.emailKey]!,
+          _authData[constants.passwordKey]!,
+        );
+      } else {
+        await authProvider.signup(
+          _authData[constants.emailKey]!,
+          _authData[constants.passwordKey]!,
+        );
+      }
+    } on HttpException catch (error) {
+      _showErrorDialog(error.toString());
+    } catch (error) {
+      _showErrorDialog(constants.authErrorMessage);
     }
     _setLoader(false);
   }
