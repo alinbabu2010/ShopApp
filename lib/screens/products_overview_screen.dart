@@ -13,7 +13,7 @@ import '../widgets/products_grid.dart';
 enum FilterOptions { favorites, all }
 
 class ProductsOverview extends StatefulWidget {
-  static const routeName = "/";
+  static const routeName = "/products_overview_screen";
 
   const ProductsOverview({Key? key}) : super(key: key);
 
