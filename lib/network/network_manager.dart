@@ -20,7 +20,11 @@ class NetworkManager {
     var uri = _createUrl("/products.json");
     try {
       final response = await get(uri);
-      return ProductParser().parseProduct(response);
+      if (response.statusCode >= 400) {
+        throw HttpException(constants.somethingWrong);
+      } else {
+        return ProductParser().parseProduct(response);
+      }
     } catch (error) {
       rethrow;
     }
@@ -55,7 +59,11 @@ class NetworkManager {
     final uri = _createUrl("/orders.json");
     try {
       var response = await get(uri);
-      return OrderItemParser.newInstance().parseOrderItem(response);
+      if (response.statusCode >= 400) {
+        throw HttpException(constants.somethingWrong);
+      } else {
+        return OrderItemParser.newInstance().parseOrderItem(response);
+      }
     } catch (error) {
       rethrow;
     }
