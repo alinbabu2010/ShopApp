@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/auth.dart';
 import '../utils/constants.dart' as constants;
 import '../utils/dimens.dart' as dimens;
 
@@ -33,7 +35,7 @@ class _AuthCardState extends State<AuthCard> {
     });
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (_formKey.currentState?.validate() == false) {
       // Invalid!
       return;
@@ -43,7 +45,10 @@ class _AuthCardState extends State<AuthCard> {
     if (_authMode == AuthMode.login) {
       // Log user in
     } else {
-      // Sign user up
+      await Provider.of<Auth>(context, listen: false).signup(
+        _authData[constants.emailKey]!,
+        _authData[constants.passwordKey]!,
+      );
     }
     _setLoader(false);
   }
