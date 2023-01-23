@@ -5,6 +5,7 @@ import 'package:shop_app/models/auth_error_response.dart';
 import 'package:shop_app/models/http_exception.dart';
 import 'package:shop_app/models/signup_request.dart';
 
+import '../env/env.dart';
 import '../utils/constants.dart' as constants;
 
 class AuthManager {
@@ -13,14 +14,13 @@ class AuthManager {
   AuthManager? authManager;
 
   final _authority = "https://identitytoolkit.googleapis.com/v1/accounts";
-  final _apiKey = "AIzaSyCiigFkkTqmMudZWf-vGkOT4csqgvZLBh0";
 
   AuthManager.newInstance() {
     authManager ??= AuthManager();
   }
 
   Future<void> _authenticate(SignupRequest request, String urlSegment) async {
-    final uri = Uri.parse("$_authority:$urlSegment?key=$_apiKey");
+    final uri = Uri.parse("$_authority:$urlSegment?key=${Env.authApiKey}");
     try {
       final response = await post(uri, body: jsonEncode(request));
       if (response.statusCode >= 400) {
