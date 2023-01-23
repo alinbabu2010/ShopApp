@@ -30,11 +30,11 @@ class AuthManager {
         final error = errorResponse.error;
         if (error != null) {
           var errorMessage = constants.authFailed;
-          if (error.toString().contains(constants.emailExists)) {
+          if (error.message.contains(constants.emailExists)) {
             errorMessage = constants.emailAlreadyInUseError;
-          } else if (error.toString().contains(constants.emailNotFound)) {
+          } else if (error.message.contains(constants.emailNotFound)) {
             errorMessage = constants.emailNotFoundErrorMsg;
-          } else if (error.toString().contains(constants.invalidPassword)) {
+          } else if (error.message.contains(constants.invalidPassword)) {
             errorMessage = constants.invalidPasswordErrorMsg;
           }
           throw HttpException(errorMessage);
