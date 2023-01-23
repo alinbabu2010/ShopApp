@@ -41,11 +41,15 @@ class _AuthCardState extends State<AuthCard> {
       return;
     }
     _formKey.currentState?.save();
+    final authProvider = Provider.of<Auth>(context, listen: false);
     _setLoader(true);
     if (_authMode == AuthMode.login) {
-      // Log user in
+      await authProvider.signIn(
+        _authData[constants.emailKey]!,
+        _authData[constants.passwordKey]!,
+      );
     } else {
-      await Provider.of<Auth>(context, listen: false).signup(
+      await authProvider.signup(
         _authData[constants.emailKey]!,
         _authData[constants.passwordKey]!,
       );
