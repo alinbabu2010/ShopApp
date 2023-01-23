@@ -26,11 +26,11 @@ class _ProductsOverviewState extends State<ProductsOverview> {
 
   late Future _productsFuture;
 
-  Future<void> _obtainProductsFuture() async {
-    Provider.of<Products>(
+  Future<void> _obtainProductsFuture() {
+    return Provider.of<Products>(
       context,
       listen: false,
-    ).fetchAndSetProducts();
+    ).fetchAndSetProducts().catchError((error) => Future.error(error));
   }
 
   @override
@@ -83,6 +83,7 @@ class _ProductsOverviewState extends State<ProductsOverview> {
         body: FutureBuilder(
             future: _productsFuture,
             builder: (context, dataSnapshot) {
+              debugPrint(dataSnapshot.toString());
               if (dataSnapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else {
