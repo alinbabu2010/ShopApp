@@ -51,3 +51,29 @@ const editProductsPadding = EdgeInsets.all(16.0);
 const editProductsRowContainerMargin = EdgeInsets.only(top: 8, right: 10);
 const editProductsRowContainerWidth = 100.0;
 const editProductsRowContainerHeight = 100.0;
+
+// Auth Screen
+const authFlexContainerMargin = EdgeInsets.only(bottom: 20.0);
+const authFlexContainerPadding = EdgeInsets.symmetric(
+  vertical: 8.0,
+  horizontal: 94.0,
+);
+var authFlexContainerBorderRadius = BorderRadius.circular(20);
+const authFlexContainerBlurRadius = 8.0;
+
+// AuthCard Widget
+var authCardBorderRadius = BorderRadius.circular(10.0);
+const authCardElevation = 8.0;
+const authCardSignupHeight = 320.0;
+const authCardLoginHeight = 260.0;
+const authCardPadding = EdgeInsets.all(16.0);
+const authCardSizedBoxHeight = 20.0;
+const authCardButtonPadding = EdgeInsets.symmetric(
+  horizontal: 30.0,
+  vertical: 8.0,
+);
+var authCardButtonBorderRadius = BorderRadius.circular(30);
+const authCardTextButtonPadding = EdgeInsets.symmetric(
+  horizontal: 30.0,
+  vertical: 4,
+);
