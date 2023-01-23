@@ -1,7 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:shop_app/models/auth_error_response.dart';
+import 'package:shop_app/models/http_exception.dart';
 import 'package:shop_app/models/signup_request.dart';
+
+import '../utils/constants.dart' as constants;
 
 class AuthManager {
   AuthManager();
@@ -17,8 +21,28 @@ class AuthManager {
 
   Future<void> _authenticate(SignupRequest request, String urlSegment) async {
     final uri = Uri.parse("$_authority:$urlSegment?key=$_apiKey");
-    final response = await post(uri, body: jsonEncode(request));
-    print(jsonDecode(response.body.toString()));
+    try {
+      final response = await post(uri, body: jsonEncode(request));
+      if (response.statusCode >= 400) {
+        final errorResponse = AuthErrorResponse.fromJson(
+          jsonDecode(response.body),
+        );
+        final error = errorResponse.error;
+        if (error != null) {
+          var errorMessage = constants.authFailed;
+          if (error.toString().contains(constants.emailExists)) {
+            errorMessage = constants.emailAlreadyInUseError;
+          } else if (error.toString().contains(constants.emailNotFound)) {
+            errorMessage = constants.emailNotFoundErrorMsg;
+          } else if (error.toString().contains(constants.invalidPassword)) {
+            errorMessage = constants.invalidPasswordErrorMsg;
+          }
+          throw HttpException(errorMessage);
+        }
+      }
+    } catch (error) {
+      rethrow;
+    }
   }
 
   Future<void> signup(SignupRequest request) async {
