@@ -97,6 +97,7 @@ class _AuthCardState extends State<AuthCard> {
                   decoration:
                       const InputDecoration(labelText: constants.labelEmail),
                   keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value?.isEmpty == true ||
                         value?.contains('@') == false) {
@@ -112,6 +113,9 @@ class _AuthCardState extends State<AuthCard> {
                   decoration:
                       const InputDecoration(labelText: constants.labelPassword),
                   obscureText: true,
+                  textInputAction: _authMode == AuthMode.signup
+                      ? TextInputAction.next
+                      : TextInputAction.done,
                   controller: _passwordController,
                   validator: (value) {
                     if (value?.isEmpty == true ||
@@ -131,6 +135,7 @@ class _AuthCardState extends State<AuthCard> {
                       labelText: constants.labelConfirmPassword,
                     ),
                     obscureText: true,
+                    textInputAction: TextInputAction.done,
                     validator: _authMode == AuthMode.signup
                         ? (value) {
                             if (value != _passwordController.text) {
