@@ -6,6 +6,9 @@ import '../models/product.dart';
 import '../utils/constants.dart' as constants;
 
 class Products with ChangeNotifier {
+
+  final networkManager = NetworkManager.newInstance();
+
   final List<Product> _items = [];
 
   List<Product> get items {
@@ -25,7 +28,7 @@ class Products with ChangeNotifier {
     final productIndex = _items.indexWhere((product) => product.id == id);
     _setFavorites(productIndex);
     if (productIndex >= 0) {
-      return NetworkManager.updateProduct(id!, _items[productIndex])
+      return networkManager.updateProduct(id!, _items[productIndex])
           .then((response) {
         if (response.statusCode >= 400) {
           _setFavorites(productIndex);
@@ -42,7 +45,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    return await NetworkManager.fetchProducts().then((products) {
+    return await networkManager.fetchProducts().then((products) {
       _items.clear();
       _items.addAll(products);
       notifyListeners();
@@ -50,7 +53,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) {
-    return NetworkManager.addProduct(product).then((productId) {
+    return networkManager.addProduct(product).then((productId) {
       final newProduct = Product(
         id: productId,
         title: product.title,
@@ -68,7 +71,7 @@ class Products with ChangeNotifier {
   Future<void> updateProduct(String? id, Product product) {
     final productIndex = _items.indexWhere((product) => product.id == id);
     if (productIndex >= 0) {
-      return NetworkManager.updateProduct(id!, product).then((value) {
+      return networkManager.updateProduct(id!, product).then((value) {
         product.isFavorite = _items[productIndex].isFavorite;
         _items[productIndex] = product;
         notifyListeners();
@@ -83,7 +86,7 @@ class Products with ChangeNotifier {
     Product? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
     notifyListeners();
-    final response = await NetworkManager.deleteProduct(id!);
+    final response = await networkManager.deleteProduct(id!);
     if (response.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProduct);
       notifyListeners();

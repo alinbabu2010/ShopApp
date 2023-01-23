@@ -8,12 +8,14 @@ import '../utils/constants.dart' as constants;
 class Orders with ChangeNotifier {
   final List<OrderItem> _orders = [];
 
+  final networkManager = NetworkManager.newInstance();
+
   List<OrderItem> get orders {
     return [..._orders];
   }
 
   Future<void> fetchOrders() async {
-    return NetworkManager.fetchOrders().then((orders) {
+    return networkManager.fetchOrders().then((orders) {
       _orders.clear();
       _orders.addAll(orders);
       notifyListeners();
@@ -27,7 +29,7 @@ class Orders with ChangeNotifier {
       cartProducts,
       DateTime.now(),
     );
-    var savedOrder = await NetworkManager.addOrders(orderItem);
+    var savedOrder = await networkManager.addOrders(orderItem);
     _orders.insert(0, savedOrder);
     notifyListeners();
     return constants.orderSuccessMsg;
