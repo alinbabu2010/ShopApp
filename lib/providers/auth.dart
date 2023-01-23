@@ -13,4 +13,9 @@ class Auth with ChangeNotifier {
     final requestModel = SignupRequest(email, password);
     return authManager.signup(requestModel);
   }
+
+  Future<void> signIn(String email, String password) async {
+    final requestModel = SignupRequest(email, password);
+    return authManager.signIn(requestModel);
+  }
 }
