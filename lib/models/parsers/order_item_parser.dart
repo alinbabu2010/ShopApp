@@ -9,11 +9,7 @@ class OrderItemParser {
   OrderItemParser();
 
   OrderItemParser.newInstance() {
-    if (orderItemParser == null) {
-      orderItemParser = OrderItemParser();
-    } else {
-      orderItemParser;
-    }
+    orderItemParser ??= OrderItemParser();
   }
 
   List<OrderItem> parseOrderItem(Response response) {
