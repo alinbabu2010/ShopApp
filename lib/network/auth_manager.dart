@@ -8,20 +8,24 @@ class AuthManager {
 
   AuthManager? authManager;
 
-  final authority = "https://identitytoolkit.googleapis.com/v1/accounts";
-  final apiKey = "AIzaSyCiigFkkTqmMudZWf-vGkOT4csqgvZLBh0";
+  final _authority = "https://identitytoolkit.googleapis.com/v1/accounts";
+  final _apiKey = "AIzaSyCiigFkkTqmMudZWf-vGkOT4csqgvZLBh0";
 
   AuthManager.newInstance() {
     authManager ??= AuthManager();
   }
 
-  Future<void> signup(SignupRequest request) async {
-    final uri = _createUri("signUp");
+  Future<void> _authenticate(SignupRequest request, String urlSegment) async {
+    final uri = Uri.parse("$_authority:$urlSegment?key=$_apiKey");
     final response = await post(uri, body: jsonEncode(request));
     print(jsonDecode(response.body.toString()));
   }
 
-  Uri _createUri(String action) {
-    return Uri.parse("$authority:$action?key=$apiKey");
+  Future<void> signup(SignupRequest request) async {
+    return _authenticate(request, "signUp");
+  }
+
+  Future<void> signIn(SignupRequest request) async {
+    return _authenticate(request, "signInWithPassword");
   }
 }
