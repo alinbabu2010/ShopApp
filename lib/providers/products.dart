@@ -6,10 +6,14 @@ import '../models/product.dart';
 import '../utils/constants.dart' as constants;
 
 class Products with ChangeNotifier {
+  final String? authToken;
+  final List<Product> _items;
+
+  Products(this.authToken, this._items) {
+    networkManager.setAuthToken(authToken);
+  }
 
   final networkManager = NetworkManager.newInstance();
-
-  final List<Product> _items = [];
 
   List<Product> get items {
     return [..._items];
@@ -82,7 +86,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String? id) async {
     final existingProductIndex =
-        _items.indexWhere((product) => product.id == id);
+    _items.indexWhere((product) => product.id == id);
     Product? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
     notifyListeners();
