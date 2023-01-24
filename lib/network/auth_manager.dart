@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:shop_app/models/auth_error_response.dart';
+import 'package:shop_app/models/auth_success_response.dart';
 import 'package:shop_app/models/http_exception.dart';
 import 'package:shop_app/models/signup_request.dart';
 
@@ -19,7 +20,10 @@ class AuthManager {
     authManager ??= AuthManager();
   }
 
-  Future<void> _authenticate(SignupRequest request, String urlSegment) async {
+  Future<AuthSuccessResponse> _authenticate(
+    SignupRequest request,
+    String urlSegment,
+  ) async {
     final uri = Uri.parse("$_authority:$urlSegment?key=${Env.authApiKey}");
     try {
       final response = await post(uri, body: jsonEncode(request));
@@ -40,16 +44,20 @@ class AuthManager {
           throw HttpException(errorMessage);
         }
       }
+      final successResponse = AuthSuccessResponse.fromJson(
+        jsonDecode(response.body),
+      );
+      return successResponse;
     } catch (error) {
       rethrow;
     }
   }
 
-  Future<void> signup(SignupRequest request) async {
+  Future<AuthSuccessResponse> signup(SignupRequest request) async {
     return _authenticate(request, "signUp");
   }
 
-  Future<void> signIn(SignupRequest request) async {
+  Future<AuthSuccessResponse> signIn(SignupRequest request) async {
     return _authenticate(request, "signInWithPassword");
   }
 }
