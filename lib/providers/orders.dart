@@ -6,7 +6,12 @@ import 'package:shop_app/network/network_manager.dart';
 import '../utils/constants.dart' as constants;
 
 class Orders with ChangeNotifier {
-  final List<OrderItem> _orders = [];
+  final String? authToken;
+  final List<OrderItem> _orders;
+
+  Orders(this.authToken, this._orders) {
+    networkManager.setAuthToken(authToken);
+  }
 
   final networkManager = NetworkManager.newInstance();
 
