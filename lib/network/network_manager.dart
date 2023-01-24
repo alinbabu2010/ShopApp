@@ -14,8 +14,14 @@ class NetworkManager {
 
   NetworkManager? networkManager;
 
+  String? _authToken;
+
   NetworkManager.newInstance() {
     networkManager ??= NetworkManager();
+  }
+
+  void setAuthToken(String? token) {
+    _authToken = token;
   }
 
   Future<String> addProduct(Product product) {
@@ -78,6 +84,6 @@ class NetworkManager {
   }
 
   Uri _createUrl(String path) {
-    return Uri.https(constants.baseUrl, path);
+    return Uri.https(constants.baseUrl, path, {"auth": _authToken});
   }
 }
