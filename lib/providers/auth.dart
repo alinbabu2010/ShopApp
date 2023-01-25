@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:shop_app/models/auth_success_response.dart';
 import 'package:shop_app/models/signup_request.dart';
@@ -7,6 +9,7 @@ class Auth with ChangeNotifier {
   String? _token;
   DateTime? _expiryDate;
   String? _userId;
+  Timer? _authTimer;
 
   final authManager = AuthManager.newInstance();
 
@@ -29,6 +32,7 @@ class Auth with ChangeNotifier {
       Duration(seconds: int.parse(response.expiresIn.toString())),
     );
     _userId = response.localId;
+    _autoLogout();
     notifyListeners();
   }
 
@@ -50,6 +54,16 @@ class Auth with ChangeNotifier {
     _token = null;
     _expiryDate = null;
     _userId = null;
+    if (_authTimer != null) {
+      _authTimer?.cancel();
+      _authTimer = null;
+    }
     notifyListeners();
+  }
+
+  void _autoLogout() {
+    if (_authTimer != null) _authTimer?.cancel();
+    final expiryTime = _expiryDate?.difference(DateTime.now()).inSeconds ?? 0;
+    _authTimer = Timer(Duration(seconds: expiryTime), logout);
   }
 }
