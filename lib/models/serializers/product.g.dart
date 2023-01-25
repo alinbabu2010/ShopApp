@@ -10,7 +10,6 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       description: json['description'] as String,
       price: double.parse(json['price'].toString()),
       imageUrl: json['imageUrl'] as String,
-      isFavorite: json['isFavorite'].toString().parseBool(),
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
