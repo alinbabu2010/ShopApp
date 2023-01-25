@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shop_app/models/order_item.dart';
+import 'package:shop_app/data/models/order_item.dart';
 import 'package:shop_app/utils/dimens.dart';
 import 'package:shop_app/utils/typography.dart';
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:shop_app/models/order_item.dart';
+import 'package:shop_app/data/models/order_item.dart';
 
 class OrderItemParser {
   OrderItemParser? orderItemParser;

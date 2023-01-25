@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:shop_app/models/auth_success_response.dart';
-import 'package:shop_app/models/signup_request.dart';
-import 'package:shop_app/network/auth_repository.dart';
 import 'package:shop_app/preferences/preference_manager.dart';
+
+import '../data/models/auth_success_response.dart';
+import '../data/models/signup_request.dart';
+import '../data/repository/auth_repository.dart';
 
 class Auth with ChangeNotifier {
   AuthSuccessResponse? userData;

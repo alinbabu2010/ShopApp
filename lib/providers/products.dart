@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:shop_app/models/http_exception.dart';
-import 'package:shop_app/network/shop_repository.dart';
+import 'dart:io';
 
-import '../models/product.dart';
+import 'package:flutter/material.dart';
+
+import '../data/models/product.dart';
+import '../data/repository/shop_repository.dart';
 import '../utils/constants.dart' as constants;
 
 class Products with ChangeNotifier {
@@ -88,7 +89,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String? id) async {
     final existingProductIndex =
-        _items.indexWhere((product) => product.id == id);
+    _items.indexWhere((product) => product.id == id);
     Product? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
     notifyListeners();
@@ -96,7 +97,7 @@ class Products with ChangeNotifier {
     if (response.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProduct);
       notifyListeners();
-      throw HttpException(constants.deleteErrorMsg);
+      throw const HttpException(constants.deleteErrorMsg);
     }
     existingProduct = null;
   }

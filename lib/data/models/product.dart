@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:shop_app/utils/extension.dart';
 
 part 'serializers/product.g.dart';
 

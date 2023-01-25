@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:shop_app/models/cart_item.dart';
+import 'package:shop_app/data/models/cart_item.dart';
 
 part 'serializers/order_item.g.dart';
 

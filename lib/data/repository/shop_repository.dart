@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:shop_app/models/parsers/product_parser.dart';
-import 'package:shop_app/models/product.dart';
+import 'package:shop_app/utils/constants.dart' as constants;
 
 import '../models/http_exception.dart';
 import '../models/order_item.dart';
 import '../models/parsers/order_item_parser.dart';
-import '../utils/constants.dart' as constants;
+import '../models/parsers/product_parser.dart';
+import '../models/product.dart';
 
 class ShopRepository {
   ShopRepository();

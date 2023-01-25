@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:shop_app/models/cart_item.dart';
-import 'package:shop_app/models/order_item.dart';
-import 'package:shop_app/network/shop_repository.dart';
+import 'package:shop_app/data/models/cart_item.dart';
+import 'package:shop_app/data/models/order_item.dart';
 
+import '../data/repository/shop_repository.dart';
 import '../utils/constants.dart' as constants;
 
 class Orders with ChangeNotifier {

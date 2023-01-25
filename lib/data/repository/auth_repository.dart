@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:shop_app/models/auth_error_response.dart';
-import 'package:shop_app/models/auth_success_response.dart';
-import 'package:shop_app/models/http_exception.dart';
-import 'package:shop_app/models/signup_request.dart';
+import 'package:shop_app/env/env.dart';
+import 'package:shop_app/utils/constants.dart' as constants;
 
-import '../env/env.dart';
-import '../utils/constants.dart' as constants;
+import '../models/auth_error_response.dart';
+import '../models/auth_success_response.dart';
+import '../models/http_exception.dart';
+import '../models/signup_request.dart';
 
 class AuthRepository {
   AuthRepository();
@@ -20,8 +20,10 @@ class AuthRepository {
     authRepository ??= AuthRepository();
   }
 
-  Future<AuthSuccessResponse> _authenticate(SignupRequest request,
-      String urlSegment,) async {
+  Future<AuthSuccessResponse> _authenticate(
+    SignupRequest request,
+    String urlSegment,
+  ) async {
     final uri = Uri.parse("$_authority:$urlSegment?key=${Env.authApiKey}");
     try {
       final response = await post(uri, body: jsonEncode(request));

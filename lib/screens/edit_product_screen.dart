@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/models/product.dart';
 
+import '../data/models/product.dart';
 import '../providers/products.dart';
 import '../utils/constants.dart' as constants;
 import '../utils/dimens.dart' as dimens;

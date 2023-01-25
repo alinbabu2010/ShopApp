@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/models/http_exception.dart';
+import 'package:shop_app/data/models/http_exception.dart';
 
 import '../providers/auth.dart';
 import '../utils/constants.dart' as constants;

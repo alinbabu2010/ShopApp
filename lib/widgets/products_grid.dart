@@ -4,7 +4,7 @@ import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/utils/constants.dart';
 import 'package:shop_app/widgets/product_item.dart';
 
-import '../models/product.dart';
+import '../data/models/product.dart';
 import '../utils/dimens.dart';
 import 'empty_msg.dart';
 
