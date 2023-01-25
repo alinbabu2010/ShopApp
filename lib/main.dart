@@ -29,10 +29,10 @@ class ShopApp extends StatelessWidget {
         ),
         ChangeNotifierProxyProvider<Auth, Products>(
           update: (context, auth, prevProducts) =>
-              Products(auth.token, prevProducts?.items ?? []),
+              Products(auth.token, auth.userId, prevProducts?.items ?? []),
           create: (context) {
             final authProvider = Provider.of<Auth>(context, listen: false);
-            return Products(authProvider.token, []);
+            return Products(authProvider.token, authProvider.userId, []);
           },
         ),
         ChangeNotifierProvider(
