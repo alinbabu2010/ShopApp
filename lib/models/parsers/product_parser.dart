@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:shop_app/utils/extension.dart';
 
 import '../product.dart';
 
@@ -10,14 +9,18 @@ class ProductParser {
 
   ProductParser();
 
-  List<Product> parseProduct(Response response) {
+  List<Product> parseProduct(
+      Response productResponse, Response favoriteResponse) {
     try {
-      final extractedData = jsonDecode(response.body) as Map<String, dynamic>;
+      final extractedData =
+          jsonDecode(productResponse.body) as Map<String, dynamic>;
+      final favoritesData = jsonDecode(favoriteResponse.body);
       final List<Product> loadedProducts = [];
       extractedData.forEach((productId, data) {
         var product = Product.fromJson(data);
-        product.id ??= productId;
-        product.isFavorite = data["isFavorite"].toString().parseBool();
+        product.id = productId;
+        product.isFavorite =
+            favoritesData == null ? false : favoritesData[productId] ?? false;
         loadedProducts.add(product);
       });
       return loadedProducts;
