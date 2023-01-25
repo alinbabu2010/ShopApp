@@ -10,6 +10,7 @@ import 'package:shop_app/screens/edit_product_screen.dart';
 import 'package:shop_app/screens/orders_screen.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 import 'package:shop_app/screens/products_overview_screen.dart';
+import 'package:shop_app/screens/splash_screen.dart';
 import 'package:shop_app/screens/user_products_screen.dart';
 import 'package:shop_app/utils/constants.dart';
 
@@ -57,7 +58,15 @@ class ShopApp extends StatelessWidget {
               ),
               fontFamily: latoFont),
           debugShowCheckedModeBanner: false,
-          home: auth.isAuth ? const ProductsOverview() : const AuthScreen(),
+          home: auth.isAuth
+              ? const ProductsOverview()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (context, snapshot) =>
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? SplashScreen()
+                          : const AuthScreen(),
+                ),
           routes: {
             ProductsOverview.routeName: (context) => const ProductsOverview(),
             CartScreen.routeName: (context) => const CartScreen(),
