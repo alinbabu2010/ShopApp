@@ -46,6 +46,11 @@ class NetworkManager {
     }
   }
 
+  Future<Response> setFavoriteProduct(String productId, bool isFavorite) {
+    final uri = _createUrl("/userFavorites/$_userId/$productId.json");
+    return put(uri, body: jsonEncode(isFavorite));
+  }
+
   Future<Response> updateProduct(String productId, Product product) {
     final uri = _createUrl("/products/$productId.json");
     return patch(uri, body: jsonEncode(product));
