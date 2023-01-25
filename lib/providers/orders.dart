@@ -7,10 +7,11 @@ import '../utils/constants.dart' as constants;
 
 class Orders with ChangeNotifier {
   final String? authToken;
+  final String? userId;
   final List<OrderItem> _orders;
 
-  Orders(this.authToken, this._orders) {
-    networkManager.setAuthToken(authToken);
+  Orders(this.authToken, this.userId, this._orders) {
+    networkManager.setCredentials(authToken, userId);
   }
 
   final networkManager = NetworkManager.newInstance();
