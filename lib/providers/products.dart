@@ -8,9 +8,10 @@ import '../utils/constants.dart' as constants;
 class Products with ChangeNotifier {
   final String? authToken;
   final List<Product> _items;
+  final String? userId;
 
-  Products(this.authToken, this._items) {
-    networkManager.setAuthToken(authToken);
+  Products(this.authToken, this.userId, this._items) {
+    networkManager.setCredentials(authToken, userId);
   }
 
   final networkManager = NetworkManager.newInstance();
@@ -32,14 +33,15 @@ class Products with ChangeNotifier {
     final productIndex = _items.indexWhere((product) => product.id == id);
     _setFavorites(productIndex);
     if (productIndex >= 0) {
-      return networkManager.updateProduct(id!, _items[productIndex])
-          .then((response) {
+      try {
+        final response = await networkManager.setFavoriteProduct(
+            id!, _items[productIndex].isFavorite);
         if (response.statusCode >= 400) {
           _setFavorites(productIndex);
         }
-      }).catchError((value) {
+      } catch (_) {
         _setFavorites(productIndex);
-      });
+      }
     }
   }
 
