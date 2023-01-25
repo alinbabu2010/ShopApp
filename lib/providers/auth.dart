@@ -45,4 +45,11 @@ class Auth with ChangeNotifier {
         .signIn(requestModel)
         .then((response) => _setData(response));
   }
+
+  void logout() {
+    _token = null;
+    _expiryDate = null;
+    _userId = null;
+    notifyListeners();
+  }
 }

@@ -13,6 +13,7 @@ const yourOrders = 'Your Orders';
 const orders = 'Orders';
 const shop = 'Shop';
 const drawerTitle = "Hello Friend!";
+const logout = "Logout";
 const cartAddedMsg = 'Added item to cart!';
 const undo = 'UNDO';
 const dismissDialogTitleText = 'Are you sure?';
