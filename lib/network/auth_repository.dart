@@ -9,21 +9,19 @@ import 'package:shop_app/models/signup_request.dart';
 import '../env/env.dart';
 import '../utils/constants.dart' as constants;
 
-class AuthManager {
-  AuthManager();
+class AuthRepository {
+  AuthRepository();
 
-  AuthManager? authManager;
+  AuthRepository? authRepository;
 
   final _authority = "https://identitytoolkit.googleapis.com/v1/accounts";
 
-  AuthManager.newInstance() {
-    authManager ??= AuthManager();
+  AuthRepository.newInstance() {
+    authRepository ??= AuthRepository();
   }
 
-  Future<AuthSuccessResponse> _authenticate(
-    SignupRequest request,
-    String urlSegment,
-  ) async {
+  Future<AuthSuccessResponse> _authenticate(SignupRequest request,
+      String urlSegment,) async {
     final uri = Uri.parse("$_authority:$urlSegment?key=${Env.authApiKey}");
     try {
       final response = await post(uri, body: jsonEncode(request));

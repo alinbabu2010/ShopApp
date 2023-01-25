@@ -10,16 +10,16 @@ import '../models/order_item.dart';
 import '../models/parsers/order_item_parser.dart';
 import '../utils/constants.dart' as constants;
 
-class NetworkManager {
-  NetworkManager();
+class ShopRepository {
+  ShopRepository();
 
-  NetworkManager? networkManager;
+  ShopRepository? shopRepository;
 
   String? _authToken;
   String? _userId;
 
-  NetworkManager.newInstance() {
-    networkManager ??= NetworkManager();
+  ShopRepository.newInstance() {
+    shopRepository ??= ShopRepository();
   }
 
   void setCredentials(String? token, String? userId) {

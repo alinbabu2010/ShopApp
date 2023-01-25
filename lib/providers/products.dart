@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/http_exception.dart';
-import 'package:shop_app/network/network_manager.dart';
+import 'package:shop_app/network/shop_repository.dart';
 
 import '../models/product.dart';
 import '../utils/constants.dart' as constants;
@@ -11,10 +11,10 @@ class Products with ChangeNotifier {
   final String? userId;
 
   Products(this.authToken, this.userId, this._items) {
-    networkManager.setCredentials(authToken, userId);
+    shopRepository.setCredentials(authToken, userId);
   }
 
-  final networkManager = NetworkManager.newInstance();
+  final shopRepository = ShopRepository.newInstance();
 
   List<Product> get items {
     return [..._items];
@@ -34,7 +34,7 @@ class Products with ChangeNotifier {
     _setFavorites(productIndex);
     if (productIndex >= 0) {
       try {
-        final response = await networkManager.setFavoriteProduct(
+        final response = await shopRepository.setFavoriteProduct(
             id!, _items[productIndex].isFavorite);
         if (response.statusCode >= 400) {
           _setFavorites(productIndex);
@@ -51,7 +51,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    return await networkManager.fetchProducts().then((products) {
+    return await shopRepository.fetchProducts().then((products) {
       _items.clear();
       _items.addAll(products);
       notifyListeners();
@@ -59,7 +59,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) {
-    return networkManager.addProduct(product).then((productId) {
+    return shopRepository.addProduct(product).then((productId) {
       final newProduct = Product(
         id: productId,
         title: product.title,
@@ -77,7 +77,7 @@ class Products with ChangeNotifier {
   Future<void> updateProduct(String? id, Product product) {
     final productIndex = _items.indexWhere((product) => product.id == id);
     if (productIndex >= 0) {
-      return networkManager.updateProduct(id!, product).then((value) {
+      return shopRepository.updateProduct(id!, product).then((value) {
         product.isFavorite = _items[productIndex].isFavorite;
         _items[productIndex] = product;
         notifyListeners();
@@ -88,11 +88,11 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String? id) async {
     final existingProductIndex =
-    _items.indexWhere((product) => product.id == id);
+        _items.indexWhere((product) => product.id == id);
     Product? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
     notifyListeners();
-    final response = await networkManager.deleteProduct(id!);
+    final response = await shopRepository.deleteProduct(id!);
     if (response.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProduct);
       notifyListeners();
