@@ -86,14 +86,12 @@ class _ProductsOverviewState extends State<ProductsOverview> {
               if (dataSnapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else {
-                if (dataSnapshot.hasError) {
-                  return EmptyMsgWidget(message: dataSnapshot.error.toString());
-                } else {
-                  return RefreshIndicator(
-                    onRefresh: _obtainProductsFuture,
-                    child: ProductsGrid(showFavorites: _showOnlyFavorites),
-                  );
-                }
+                return RefreshIndicator(
+                  onRefresh: _obtainProductsFuture,
+                  child: dataSnapshot.hasError
+                      ? EmptyMsgWidget(message: dataSnapshot.error.toString())
+                      : ProductsGrid(showFavorites: _showOnlyFavorites),
+                );
               }
             }),
         drawer: const AppDrawer());
