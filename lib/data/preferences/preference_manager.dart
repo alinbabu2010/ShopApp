@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data/models/auth_success_response.dart';
+import '../models/auth_success_response.dart';
 
 class PreferenceManager {
   SharedPreferences? prefs;
