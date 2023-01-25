@@ -70,7 +70,7 @@ class NetworkManager {
   }
 
   Future<OrderItem> addOrders(OrderItem orderItem) async {
-    final uri = _createUrl("/orders.json");
+    final uri = _createUrl("/orders/$_userId.json");
     try {
       var response = await post(uri, body: jsonEncode(orderItem));
       if (response.statusCode >= 400) {
@@ -86,7 +86,7 @@ class NetworkManager {
   }
 
   Future<List<OrderItem>> fetchOrders() async {
-    final uri = _createUrl("/orders.json");
+    final uri = _createUrl("/orders/$_userId.json");
     try {
       var response = await get(uri);
       if (response.statusCode >= 400) {
