@@ -42,9 +42,10 @@ class NetworkManager {
       final productResponse = await get(uri);
       uri = _createUrl("/userFavorites/$_userId.json");
       final favoriteResponse = await get(uri);
-      if (productResponse.statusCode >= 400 ||
-          favoriteResponse.statusCode >= 400) {
-        throw HttpException(constants.somethingWrong);
+      if (productResponse.statusCode >= 400) {
+        _throwError(productResponse.body.toString());
+      } else if (favoriteResponse.statusCode >= 400) {
+        _throwError(productResponse.body.toString());
       } else {
         return ProductParser().parseProduct(productResponse, favoriteResponse);
       }
@@ -73,7 +74,8 @@ class NetworkManager {
     try {
       var response = await post(uri, body: jsonEncode(orderItem));
       if (response.statusCode >= 400) {
-        throw HttpException(constants.orderErrorMsg);
+        throw HttpException(
+            kDebugMode ? response.body.toString() : constants.orderErrorMsg);
       } else {
         orderItem.id = jsonDecode(response.body)[constants.nameKey];
       }
@@ -107,5 +109,9 @@ class NetworkManager {
 
   Uri _createUrl(String path) {
     return Uri.https(constants.baseUrl, path, {"auth": _authToken});
+  }
+
+  Never _throwError(String message) {
+    return throw HttpException(kDebugMode ? message : constants.orderErrorMsg);
   }
 }
