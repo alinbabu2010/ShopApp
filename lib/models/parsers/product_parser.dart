@@ -25,7 +25,7 @@ class ProductParser {
       });
       return loadedProducts;
     } catch (error) {
-      return List.empty();
+      rethrow;
     }
   }
 }
