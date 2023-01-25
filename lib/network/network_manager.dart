@@ -15,13 +15,15 @@ class NetworkManager {
   NetworkManager? networkManager;
 
   String? _authToken;
+  String? _userId;
 
   NetworkManager.newInstance() {
     networkManager ??= NetworkManager();
   }
 
-  void setAuthToken(String? token) {
+  void setCredentials(String? token, String? userId) {
     _authToken = token;
+    _userId = userId;
   }
 
   Future<String> addProduct(Product product) {
