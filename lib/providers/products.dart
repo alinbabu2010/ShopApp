@@ -89,7 +89,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String? id) async {
     final existingProductIndex =
-    _items.indexWhere((product) => product.id == id);
+        _items.indexWhere((product) => product.id == id);
     Product? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
     notifyListeners();

@@ -54,30 +54,30 @@ class ProductItem extends StatelessWidget {
               color: theme.colorScheme.secondary,
             ),
             backgroundColor: Colors.black87,
-              title: Text(
-                product.title,
-                textAlign: TextAlign.center,
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.shopping_cart),
-                onPressed: () {
-                  cart.addItem(
-                    product.id,
-                    product.price,
-                    product.title,
-                  );
-                  setupSnackBar(context, cart, product);
-                },
-                color: Theme.of(context).colorScheme.secondary,
-              ),
+            title: Text(
+              product.title,
+              textAlign: TextAlign.center,
             ),
-            child: GestureDetector(
-              onTap: () => Navigator.of(context).pushNamed(
-                  ProductDetailScreen.routeName,
-                  arguments: product.id),
-              child: Image.network(product.imageUrl, fit: BoxFit.cover),
+            trailing: IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {
+                cart.addItem(
+                  product.id,
+                  product.price,
+                  product.title,
+                );
+                setupSnackBar(context, cart, product);
+              },
+              color: Theme.of(context).colorScheme.secondary,
             ),
           ),
+          child: GestureDetector(
+            onTap: () => Navigator.of(context).pushNamed(
+                ProductDetailScreen.routeName,
+                arguments: product.id),
+            child: Image.network(product.imageUrl, fit: BoxFit.cover),
+          ),
+        ),
       ),
     );
   }
