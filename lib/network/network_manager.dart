@@ -35,11 +35,14 @@ class NetworkManager {
   Future<List<Product>> fetchProducts() async {
     var uri = _createUrl("/products.json");
     try {
-      final response = await get(uri);
-      if (response.statusCode >= 400) {
+      final productResponse = await get(uri);
+      uri = _createUrl("/userFavorites/$_userId.json");
+      final favoriteResponse = await get(uri);
+      if (productResponse.statusCode >= 400 ||
+          favoriteResponse.statusCode >= 400) {
         throw HttpException(constants.somethingWrong);
       } else {
-        return ProductParser().parseProduct(response);
+        return ProductParser().parseProduct(productResponse, favoriteResponse);
       }
     } catch (error) {
       rethrow;
