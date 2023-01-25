@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:shop_app/models/parsers/product_parser.dart';
 import 'package:shop_app/models/product.dart';
@@ -28,12 +29,15 @@ class NetworkManager {
 
   Future<String> addProduct(Product product) {
     var uri = _createUrl("/products.json");
-    return post(uri, body: jsonEncode(product))
+    final requestBody = product.toJson();
+    requestBody.remove("isFavorite");
+    requestBody["creatorId"] = _userId;
+    return post(uri, body: jsonEncode(requestBody))
         .then((response) => jsonDecode(response.body)['name']);
   }
 
   Future<List<Product>> fetchProducts() async {
-    var uri = _createUrl("/products.json");
+    var uri = _createFetchUri("/products.json");
     try {
       final productResponse = await get(uri);
       uri = _createUrl("/userFavorites/$_userId.json");
@@ -91,6 +95,14 @@ class NetworkManager {
     } catch (error) {
       rethrow;
     }
+  }
+
+  Uri _createFetchUri(String path) {
+    return Uri.https(constants.baseUrl, path, {
+      "auth": _authToken,
+      "orderBy": '"creatorId"',
+      "equalTo": '"$_userId"'
+    });
   }
 
   Uri _createUrl(String path) {
