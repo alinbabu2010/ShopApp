@@ -21,6 +21,8 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  String? get userId => _userId;
+
   void _setData(AuthSuccessResponse response) {
     _token = response.idToken;
     _expiryDate = DateTime.now().add(
