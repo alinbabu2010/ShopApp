@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -87,7 +88,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     _setLoader(true);
     if (_editedProduct.id == null) {
       _productsData.addProduct(_editedProduct).catchError((error) async {
-        await displayErrorDialog();
+        await displayErrorDialog(error.toString());
       }).then((_) => _setLoader(false));
     } else {
       _productsData
@@ -96,12 +97,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
-  Future<void> displayErrorDialog() async {
+  Future<void> displayErrorDialog(String message) async {
     return await showDialog(
       context: context,
       builder: (_) => AlertDialog(
         title: const Text(constants.errorOccurred),
-        content: const Text(constants.somethingWrong),
+        content: Text(kDebugMode ? message : constants.somethingWrong),
         actions: [
           TextButton(
             onPressed: () {

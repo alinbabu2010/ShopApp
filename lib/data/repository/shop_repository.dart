@@ -74,14 +74,13 @@ class ShopRepository {
     try {
       var response = await post(uri, body: jsonEncode(orderItem));
       if (response.statusCode >= 400) {
-        throw HttpException(
-            kDebugMode ? response.body.toString() : constants.orderErrorMsg);
+        _throwOrdersError(response.body.toString());
       } else {
         orderItem.id = jsonDecode(response.body)[constants.nameKey];
       }
       return orderItem;
-    } catch (_) {
-      throw HttpException(constants.orderErrorMsg);
+    } catch (error) {
+      _throwOrdersError(error.toString());
     }
   }
 
@@ -90,7 +89,7 @@ class ShopRepository {
     try {
       var response = await get(uri);
       if (response.statusCode >= 400) {
-        throw HttpException(constants.somethingWrong);
+       _throwError(response.body.toString());
       } else {
         return OrderItemParser.newInstance().parseOrderItem(response);
       }
@@ -112,6 +111,10 @@ class ShopRepository {
   }
 
   Never _throwError(String message) {
+    return throw HttpException(kDebugMode ? message : constants.somethingWrong);
+  }
+
+  Never _throwOrdersError(String message) {
     return throw HttpException(kDebugMode ? message : constants.orderErrorMsg);
   }
 }
