@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/navigation/custom_page_transition_builder.dart';
+import 'package:shop_app/navigation/nav_manager.dart';
 import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/screens/auth_screen.dart';
-import 'package:shop_app/screens/cart_screen.dart';
-import 'package:shop_app/screens/edit_product_screen.dart';
-import 'package:shop_app/screens/orders_screen.dart';
-import 'package:shop_app/screens/product_detail_screen.dart';
-import 'package:shop_app/screens/products_overview_screen.dart';
-import 'package:shop_app/screens/splash_screen.dart';
-import 'package:shop_app/screens/user_products_screen.dart';
 import 'package:shop_app/utils/constants.dart';
 
 void main() {
@@ -24,6 +16,7 @@ class ShopApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navManager = NavManager.getInstance();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -58,33 +51,11 @@ class ShopApp extends StatelessWidget {
               secondary: Colors.deepOrange,
             ),
             fontFamily: latoFont,
-            pageTransitionsTheme: PageTransitionsTheme(
-              builders: {
-                TargetPlatform.android: CustomPageTransitionBuilder(),
-                TargetPlatform.iOS: CustomPageTransitionBuilder(),
-              },
-            ),
+            pageTransitionsTheme: navManager.getPageTransitionsTheme(),
           ),
           debugShowCheckedModeBanner: false,
-          home: auth.isAuth
-              ? const ProductsOverview()
-              : FutureBuilder(
-                  future: auth.tryAutoLogin(),
-                  builder: (context, snapshot) =>
-                      snapshot.connectionState == ConnectionState.waiting
-                          ? const SplashScreen()
-                          : const AuthScreen(),
-                ),
-          routes: {
-            ProductsOverview.routeName: (context) => const ProductsOverview(),
-            CartScreen.routeName: (context) => const CartScreen(),
-            OrdersScreen.routeName: (context) => const OrdersScreen(),
-            EditProductScreen.routeName: (context) => const EditProductScreen(),
-            ProductDetailScreen.routeName: (context) =>
-                const ProductDetailScreen(),
-            UserProductsScreen.routeName: (context) =>
-                const UserProductsScreen(),
-          },
+          home: navManager.getHomeRoute(auth),
+          routes: navManager.getRoutes(),
         ),
       ),
     );
