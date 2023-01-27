@@ -23,6 +23,7 @@ class ProductsOverview extends StatefulWidget {
 
 class _ProductsOverviewState extends State<ProductsOverview> {
   var _showOnlyFavorites = false;
+  var _isRefresh = false;
 
   late Future _productsFuture;
 
@@ -37,6 +38,15 @@ class _ProductsOverviewState extends State<ProductsOverview> {
   void initState() {
     _productsFuture = _obtainProductsFuture();
     super.initState();
+  }
+
+  Future<void> _refreshProducts() async {
+    final refreshFuture =
+        _obtainProductsFuture().whenComplete(() => _isRefresh = false);
+    _isRefresh = true;
+    setState(() {
+      _productsFuture = refreshFuture;
+    });
   }
 
   @override
@@ -83,11 +93,12 @@ class _ProductsOverviewState extends State<ProductsOverview> {
         body: FutureBuilder(
             future: _productsFuture,
             builder: (context, dataSnapshot) {
-              if (dataSnapshot.connectionState == ConnectionState.waiting) {
+              if (dataSnapshot.connectionState == ConnectionState.waiting &&
+                  !_isRefresh) {
                 return const Center(child: CircularProgressIndicator());
               } else {
                 return RefreshIndicator(
-                  onRefresh: _obtainProductsFuture,
+                  onRefresh: _refreshProducts,
                   child: dataSnapshot.hasError
                       ? EmptyMsgWidget(message: dataSnapshot.error.toString())
                       : ProductsGrid(showFavorites: _showOnlyFavorites),
