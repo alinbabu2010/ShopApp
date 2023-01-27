@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/navigation/custom_page_transition_builder.dart';
 import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/orders.dart';
@@ -52,11 +53,18 @@ class ShopApp extends StatelessWidget {
         builder: (context, auth, _) => MaterialApp(
           title: appName,
           theme: ThemeData(
-              colorScheme: const ColorScheme.light(
-                primary: Colors.indigo,
-                secondary: Colors.deepOrange,
-              ),
-              fontFamily: latoFont),
+            colorScheme: const ColorScheme.light(
+              primary: Colors.indigo,
+              secondary: Colors.deepOrange,
+            ),
+            fontFamily: latoFont,
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+                TargetPlatform.iOS: CustomPageTransitionBuilder(),
+              },
+            ),
+          ),
           debugShowCheckedModeBanner: false,
           home: auth.isAuth
               ? const ProductsOverview()
