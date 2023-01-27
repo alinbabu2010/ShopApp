@@ -17,7 +17,8 @@ class AuthCard extends StatefulWidget {
   State<AuthCard> createState() => _AuthCardState();
 }
 
-class _AuthCardState extends State<AuthCard> {
+class _AuthCardState extends State<AuthCard>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   AuthMode _authMode = AuthMode.login;
@@ -29,6 +30,39 @@ class _AuthCardState extends State<AuthCard> {
 
   var _isLoading = false;
   final _passwordController = TextEditingController();
+  late AnimationController _controller;
+  late Animation<Size> _heightAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _heightAnimation = Tween<Size>(
+      begin: const Size(
+        double.infinity,
+        dimens.authCardLoginHeight,
+      ),
+      end: const Size(
+        double.infinity,
+        dimens.authCardSignupHeight,
+      ),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.linear,
+      ),
+    );
+    _heightAnimation.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   void _setLoader(bool isLoading) {
     setState(() {
@@ -81,20 +115,18 @@ class _AuthCardState extends State<AuthCard> {
   }
 
   void _switchAuthMode() {
-    if (_authMode == AuthMode.login) {
-      setState(() {
+    setState(() {
+      if (_authMode == AuthMode.login) {
         _authMode = AuthMode.signup;
-      });
-    } else {
-      setState(() {
+        _controller.forward();
+      } else {
         _authMode = AuthMode.login;
-      });
-    }
+        _controller.reverse();
+      }
+    });
   }
 
-  double get authCardHeight => _authMode == AuthMode.signup
-      ? dimens.authCardSignupHeight
-      : dimens.authCardLoginHeight;
+  double get authCardHeight => _heightAnimation.value.height;
 
   String get elevatedButtonText =>
       _authMode == AuthMode.login ? constants.login : constants.signup;
