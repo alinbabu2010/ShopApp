@@ -55,7 +55,7 @@ class _AuthCardState extends State<AuthCard>
         curve: Curves.linear,
       ),
     );
-    _heightAnimation.addListener(() => setState(() {}));
+    //_heightAnimation.addListener(() => setState(() {}));
   }
 
   @override
@@ -142,11 +142,14 @@ class _AuthCardState extends State<AuthCard>
         borderRadius: dimens.authCardBorderRadius,
       ),
       elevation: dimens.authCardElevation,
-      child: Container(
-        height: authCardHeight,
-        constraints: BoxConstraints(minHeight: authCardHeight),
-        width: deviceSize.width * 0.75,
-        padding: dimens.authCardPadding,
+      child: AnimatedBuilder(
+        animation: _heightAnimation,
+        builder: (context, child) => Container(
+            height: authCardHeight,
+            constraints: BoxConstraints(minHeight: authCardHeight),
+            width: deviceSize.width * 0.75,
+            padding: dimens.authCardPadding,
+            child: child),
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
