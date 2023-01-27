@@ -51,7 +51,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
           future: _ordersFuture,
           builder: (context, dataSnapShot) {
             if (dataSnapShot.connectionState == ConnectionState.waiting &&
-                _isRefresh) {
+                !_isRefresh) {
               return const Center(child: CircularProgressIndicator());
             } else {
               if (dataSnapShot.hasError) {
