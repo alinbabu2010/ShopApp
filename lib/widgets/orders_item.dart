@@ -38,28 +38,30 @@ class _OrdersItemState extends State<OrdersItem> {
               },
             ),
           ),
-          if (_expanded)
-            Container(
-              padding: ordersItemExpandedContainerPadding,
-              height: min(((widget.order.products.length * 20) + 20), 180),
-              child: ListView(
-                children: widget.order.products
-                    .map((product) => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              product.title,
-                              style: orderItemExpandedTitleStyle,
-                            ),
-                            Text(
-                              '${product.quantity} x \$${product.price}',
-                              style: orderItemExpandedPriceStyle,
-                            )
-                          ],
-                        ))
-                    .toList(),
-              ),
-            )
+          AnimatedContainer(
+            padding: ordersItemExpandedContainerPadding,
+            height: _expanded
+                ? min(((widget.order.products.length * 20) + 20), 180)
+                : 0,
+            duration: const Duration(milliseconds: 200),
+            child: ListView(
+              children: widget.order.products
+                  .map((product) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            product.title,
+                            style: orderItemExpandedTitleStyle,
+                          ),
+                          Text(
+                            '${product.quantity} x \$${product.price}',
+                            style: orderItemExpandedPriceStyle,
+                          )
+                        ],
+                      ))
+                  .toList(),
+            ),
+          )
         ],
       ),
     );
