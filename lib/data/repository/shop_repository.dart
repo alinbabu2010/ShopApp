@@ -28,16 +28,15 @@ class ShopRepository {
   }
 
   Future<String> addProduct(Product product) {
-    var uri = _createUrl("/products.json");
+    var uri = _createUrl("/products/$_userId.json");
     final requestBody = product.toJson();
     requestBody.remove("isFavorite");
-    requestBody["creatorId"] = _userId;
     return post(uri, body: jsonEncode(requestBody))
         .then((response) => jsonDecode(response.body)['name']);
   }
 
   Future<List<Product>> fetchProducts() async {
-    var uri = _createFetchUri("/products.json");
+    var uri = _createUrl("/products/$_userId.json");
     try {
       final productResponse = await get(uri);
       uri = _createUrl("/userFavorites/$_userId.json");
@@ -60,12 +59,12 @@ class ShopRepository {
   }
 
   Future<Response> updateProduct(String productId, Product product) {
-    final uri = _createUrl("/products/$productId.json");
+    final uri = _createUrl("/products/$_userId/$productId.json");
     return patch(uri, body: jsonEncode(product));
   }
 
   Future<Response> deleteProduct(String productId) async {
-    final uri = _createUrl("/products/$productId.json");
+    final uri = _createUrl("/products/$_userId/$productId.json");
     return await delete(uri);
   }
 
@@ -96,14 +95,6 @@ class ShopRepository {
     } catch (error) {
       rethrow;
     }
-  }
-
-  Uri _createFetchUri(String path) {
-    return Uri.https(constants.baseUrl, path, {
-      "auth": _authToken,
-      "orderBy": '"creatorId"',
-      "equalTo": '"$_userId"'
-    });
   }
 
   Uri _createUrl(String path) {
