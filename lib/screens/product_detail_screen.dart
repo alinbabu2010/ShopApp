@@ -19,16 +19,14 @@ class ProductDetailScreen extends StatelessWidget {
     final id = ModalRoute.of(context)?.settings.arguments as String;
     final product = Provider.of<Products>(context, listen: false).findById(id);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(product.title),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: productDetailsImageHeight,
-              width: double.infinity,
-              child: Hero(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: productDetailsImageHeight,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(product.title),
+              background: Hero(
                 tag: product.id as Object,
                 child: Image.network(
                   product.imageUrl,
@@ -36,23 +34,31 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-            buildSizedBox(),
-            Text(
-              '\$${product.price}',
-              style: productDetailsPriceTextStyle,
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                buildSizedBox(),
+                Text(
+                  '\$${product.price}',
+                  style: productDetailsPriceTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+                buildSizedBox(),
+                Container(
+                  padding: productDetailsContainerPadding,
+                  width: double.infinity,
+                  child: Text(
+                    product.description,
+                    textAlign: TextAlign.center,
+                    softWrap: true,
+                  ),
+                ),
+                const SizedBox(height: 750)
+              ],
             ),
-            buildSizedBox(),
-            Container(
-              padding: productDetailsContainerPadding,
-              width: double.infinity,
-              child: Text(
-                product.description,
-                textAlign: TextAlign.center,
-                softWrap: true,
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
