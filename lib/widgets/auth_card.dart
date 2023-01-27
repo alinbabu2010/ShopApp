@@ -118,15 +118,15 @@ class _AuthCardState extends State<AuthCard>
     setState(() {
       if (_authMode == AuthMode.login) {
         _authMode = AuthMode.signup;
-        _controller.forward();
       } else {
         _authMode = AuthMode.login;
-        _controller.reverse();
       }
     });
   }
 
-  double get authCardHeight => _heightAnimation.value.height;
+  double get authCardHeight => _authMode == AuthMode.signup
+      ? dimens.authCardSignupHeight
+      : dimens.authCardLoginHeight;
 
   String get elevatedButtonText =>
       _authMode == AuthMode.login ? constants.login : constants.signup;
@@ -142,14 +142,13 @@ class _AuthCardState extends State<AuthCard>
         borderRadius: dimens.authCardBorderRadius,
       ),
       elevation: dimens.authCardElevation,
-      child: AnimatedBuilder(
-        animation: _heightAnimation,
-        builder: (context, child) => Container(
-            height: authCardHeight,
-            constraints: BoxConstraints(minHeight: authCardHeight),
-            width: deviceSize.width * 0.75,
-            padding: dimens.authCardPadding,
-            child: child),
+      child: AnimatedContainer(
+        height: authCardHeight,
+        constraints: BoxConstraints(minHeight: authCardHeight),
+        width: deviceSize.width * 0.75,
+        padding: dimens.authCardPadding,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
