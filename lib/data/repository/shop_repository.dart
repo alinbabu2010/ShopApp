@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
@@ -41,9 +42,9 @@ class ShopRepository {
       final productResponse = await get(uri);
       uri = _createUrl("/userFavorites/$_userId.json");
       final favoriteResponse = await get(uri);
-      if (productResponse.statusCode >= 400) {
+      if (productResponse.statusCode >= HttpStatus.badRequest) {
         _throwError(productResponse.body.toString());
-      } else if (favoriteResponse.statusCode >= 400) {
+      } else if (favoriteResponse.statusCode >= HttpStatus.badRequest) {
         _throwError(productResponse.body.toString());
       } else {
         return ProductParser().parseProduct(productResponse, favoriteResponse);
@@ -72,7 +73,7 @@ class ShopRepository {
     final uri = _createUrl("/orders/$_userId.json");
     try {
       var response = await post(uri, body: jsonEncode(orderItem));
-      if (response.statusCode >= 400) {
+      if (response.statusCode >= HttpStatus.badRequest) {
         _throwOrdersError(response.body.toString());
       } else {
         orderItem.id = jsonDecode(response.body)[constants.nameKey];
@@ -87,8 +88,8 @@ class ShopRepository {
     final uri = _createUrl("/orders/$_userId.json");
     try {
       var response = await get(uri);
-      if (response.statusCode >= 400) {
-       _throwError(response.body.toString());
+      if (response.statusCode >= HttpStatus.badRequest) {
+        _throwError(response.body.toString());
       } else {
         return OrderItemParser.newInstance().parseOrderItem(response);
       }

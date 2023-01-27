@@ -37,7 +37,7 @@ class Products with ChangeNotifier {
       try {
         final response = await shopRepository.setFavoriteProduct(
             id!, _items[productIndex].isFavorite);
-        if (response.statusCode >= 400) {
+        if (response.statusCode >= HttpStatus.badRequest) {
           _setFavorites(productIndex);
         }
       } catch (_) {
@@ -94,7 +94,7 @@ class Products with ChangeNotifier {
     _items.removeAt(existingProductIndex);
     notifyListeners();
     final response = await shopRepository.deleteProduct(id!);
-    if (response.statusCode >= 400) {
+    if (response.statusCode >= HttpStatus.badRequest) {
       _items.insert(existingProductIndex, existingProduct);
       notifyListeners();
       throw const HttpException(constants.deleteErrorMsg);

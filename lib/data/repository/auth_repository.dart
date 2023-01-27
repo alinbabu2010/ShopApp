@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:shop_app/env/env.dart';
@@ -27,7 +28,7 @@ class AuthRepository {
     final uri = Uri.parse("$_authority:$urlSegment?key=${Env.authApiKey}");
     try {
       final response = await post(uri, body: jsonEncode(request));
-      if (response.statusCode >= 400) {
+      if (response.statusCode >= HttpStatus.badRequest) {
         final errorResponse = AuthErrorResponse.fromJson(
           jsonDecode(response.body),
         );
