@@ -55,7 +55,7 @@ class UserProductItem extends StatelessWidget {
                 }
               },
               icon: const Icon(Icons.delete),
-              color: theme.errorColor,
+              color: theme.colorScheme.error,
             )
           ],
         ),

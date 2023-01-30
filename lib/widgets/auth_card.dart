@@ -233,7 +233,7 @@ class _AuthCardState extends State<AuthCard>
                         Theme.of(context).primaryColor,
                       ),
                       foregroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryTextTheme.button?.color,
+                        Theme.of(context).primaryTextTheme.labelLarge?.color,
                       ),
                       padding: MaterialStateProperty.all(
                         dimens.authCardButtonPadding,
