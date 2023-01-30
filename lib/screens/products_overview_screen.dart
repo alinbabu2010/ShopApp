@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/screens/cart_screen.dart';
 import 'package:shop_app/utils/constants.dart';
+import 'package:shop_app/utils/dimens.dart';
 import 'package:shop_app/widgets/app_drawer.dart';
-import 'package:shop_app/widgets/badge.dart';
 
 import '../providers/cart.dart';
 import '../providers/products.dart';
@@ -78,9 +78,13 @@ class _ProductsOverviewState extends State<ProductsOverview> {
               },
             ),
             Consumer<Cart>(
-              builder: (_, cart, child) => Badge(
-                value: cart.itemCount.toString(),
-                child: child as Widget,
+              builder: (_, cart, child) => Container(
+                margin: badgeTopMargin,
+                child: Badge.count(
+                  count: cart.itemCount,
+                  alignment: AlignmentDirectional.topStart,
+                  child: child as Widget,
+                ),
               ),
               child: IconButton(
                 icon: const Icon(Icons.shopping_cart),
