@@ -39,4 +39,29 @@ class FormValidator {
     }
     return null;
   }
+
+  static String? checkValidEmail(String? value) {
+    if (value?.isEmpty == true || value?.contains('@') == false) {
+      return 'Invalid email!';
+    }
+    return null;
+  }
+
+  static String? checkValidPassword(String? value) {
+    if (value?.isEmpty == true ||
+        value?.length.compareTo(5).isNegative == true) {
+      return 'Password is too short!';
+    }
+    return null;
+  }
+
+  static String? checkPasswordMatch(
+    String? password,
+    String? reenteredPassword,
+  ) {
+    if (password != reenteredPassword) {
+      return 'Passwords do not match!';
+    }
+    return null;
+  }
 }
