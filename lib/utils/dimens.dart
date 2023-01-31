@@ -60,8 +60,8 @@ const authFlexContainerBlurRadius = 8.0;
 // AuthCard Widget
 var authCardBorderRadius = BorderRadius.circular(10.0);
 const authCardElevation = 8.0;
-const authCardSignupHeight = 320.0;
-const authCardLoginHeight = 260.0;
+const authCardSignupHeight = 340.0;
+const authCardLoginHeight = 300.0;
 const authCardPadding = EdgeInsets.all(16.0);
 const authCardSizedBoxHeight = 20.0;
 const authCardButtonPadding = EdgeInsets.symmetric(
