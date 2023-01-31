@@ -150,116 +150,118 @@ class _AuthCardState extends State<AuthCard>
         padding: dimens.authCardPadding,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  decoration:
-                      const InputDecoration(labelText: constants.labelEmail),
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  validator: (value) {
-                    if (value?.isEmpty == true ||
-                        value?.contains('@') == false) {
-                      return constants.invalidEmail;
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _authData[constants.emailKey] = value!;
-                  },
-                ),
-                TextFormField(
-                  decoration:
-                      const InputDecoration(labelText: constants.labelPassword),
-                  obscureText: true,
-                  textInputAction: _authMode == AuthMode.signup
-                      ? TextInputAction.next
-                      : TextInputAction.done,
-                  controller: _passwordController,
-                  validator: (value) {
-                    if (value?.isEmpty == true ||
-                        value?.length.compareTo(5).isNegative == true) {
-                      return constants.shortPasswordError;
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _authData[constants.passwordKey] = value!;
-                  },
-                ),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  constraints: BoxConstraints(
-                    minHeight: _authMode == AuthMode.signup ? 60 : 0,
-                    maxHeight: _authMode == AuthMode.signup ? 120 : 0,
+        child: Center(
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    decoration:
+                        const InputDecoration(labelText: constants.labelEmail),
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if (value?.isEmpty == true ||
+                          value?.contains('@') == false) {
+                        return constants.invalidEmail;
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _authData[constants.emailKey] = value!;
+                    },
                   ),
-                  curve: Curves.easeIn,
-                  child: FadeTransition(
-                    opacity: _opacityAnimation,
-                    child: SlideTransition(
-                      position: _slideAnimation,
-                      child: TextFormField(
-                        enabled: _authMode == AuthMode.signup,
-                        decoration: const InputDecoration(
-                          labelText: constants.labelConfirmPassword,
-                        ),
-                        obscureText: true,
-                        textInputAction: TextInputAction.done,
-                        validator: _authMode == AuthMode.signup
-                            ? (value) {
-                                if (value != _passwordController.text) {
-                                  return constants.passwordMatchError;
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        labelText: constants.labelPassword),
+                    obscureText: true,
+                    textInputAction: _authMode == AuthMode.signup
+                        ? TextInputAction.next
+                        : TextInputAction.done,
+                    controller: _passwordController,
+                    validator: (value) {
+                      if (value?.isEmpty == true ||
+                          value?.length.compareTo(5).isNegative == true) {
+                        return constants.shortPasswordError;
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _authData[constants.passwordKey] = value!;
+                    },
+                  ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    constraints: BoxConstraints(
+                      minHeight: _authMode == AuthMode.signup ? 60 : 0,
+                      maxHeight: _authMode == AuthMode.signup ? 120 : 0,
+                    ),
+                    curve: Curves.easeIn,
+                    child: FadeTransition(
+                      opacity: _opacityAnimation,
+                      child: SlideTransition(
+                        position: _slideAnimation,
+                        child: TextFormField(
+                          enabled: _authMode == AuthMode.signup,
+                          decoration: const InputDecoration(
+                            labelText: constants.labelConfirmPassword,
+                          ),
+                          obscureText: true,
+                          textInputAction: TextInputAction.done,
+                          validator: _authMode == AuthMode.signup
+                              ? (value) {
+                                  if (value != _passwordController.text) {
+                                    return constants.passwordMatchError;
+                                  }
+                                  return null;
                                 }
-                                return null;
-                              }
-                            : null,
+                              : null,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: dimens.authCardSizedBoxHeight,
-                ),
-                if (_isLoading)
-                  const CircularProgressIndicator()
-                else
-                  ElevatedButton(
-                    onPressed: _submit,
+                  const SizedBox(
+                    height: dimens.authCardSizedBoxHeight,
+                  ),
+                  if (_isLoading)
+                    const CircularProgressIndicator()
+                  else
+                    ElevatedButton(
+                      onPressed: _submit,
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor,
+                        ),
+                        foregroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryTextTheme.labelLarge?.color,
+                        ),
+                        padding: MaterialStateProperty.all(
+                          dimens.authCardButtonPadding,
+                        ),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: dimens.authCardButtonBorderRadius,
+                          ),
+                        ),
+                      ),
+                      child: Text(elevatedButtonText),
+                    ),
+                  TextButton(
+                    onPressed: _switchAuthMode,
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
+                      padding: MaterialStateProperty.all(
+                        dimens.authCardTextButtonPadding,
+                      ),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      foregroundColor: MaterialStateProperty.all(
                         Theme.of(context).primaryColor,
                       ),
-                      foregroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryTextTheme.labelLarge?.color,
-                      ),
-                      padding: MaterialStateProperty.all(
-                        dimens.authCardButtonPadding,
-                      ),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: dimens.authCardButtonBorderRadius,
-                        ),
-                      ),
                     ),
-                    child: Text(elevatedButtonText),
+                    child: Text('$buttonText ${constants.instead}'),
                   ),
-                TextButton(
-                  onPressed: _switchAuthMode,
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
-                      dimens.authCardTextButtonPadding,
-                    ),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    foregroundColor: MaterialStateProperty.all(
-                      Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  child: Text('$buttonText ${constants.instead}'),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
