@@ -132,13 +132,15 @@ class _AuthCardState extends State<AuthCard>
       ? dimens.authCardSignupHeight
       : dimens.authCardLoginHeight;
 
+  TextInputAction get _passwordTextInputAction => _authMode == AuthMode.signup
+      ? TextInputAction.next
+      : TextInputAction.done;
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: dimens.authCardBorderRadius,
-      ),
+      shape: RoundedRectangleBorder(borderRadius: dimens.authCardBorderRadius),
       elevation: dimens.authCardElevation,
       child: AnimatedContainer(
         width: deviceSize.width * 0.75,
@@ -164,9 +166,7 @@ class _AuthCardState extends State<AuthCard>
                   decoration:
                       const InputDecoration(labelText: constants.labelPassword),
                   obscureText: true,
-                  textInputAction: _authMode == AuthMode.signup
-                      ? TextInputAction.next
-                      : TextInputAction.done,
+                  textInputAction: _passwordTextInputAction,
                   controller: _passwordController,
                   validator: FormValidator.checkValidPassword,
                   onSaved: (value) {
@@ -184,8 +184,7 @@ class _AuthCardState extends State<AuthCard>
                         child: TextFormField(
                           enabled: _authMode == AuthMode.signup,
                           decoration: const InputDecoration(
-                            labelText: constants.labelConfirmPassword,
-                          ),
+                              labelText: constants.labelConfirmPassword),
                           obscureText: true,
                           textInputAction: TextInputAction.done,
                           validator: _authMode == AuthMode.signup
@@ -197,9 +196,7 @@ class _AuthCardState extends State<AuthCard>
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: dimens.authCardSizedBoxHeight,
-                ),
+                const SizedBox(height: dimens.authCardSizedBoxHeight),
                 AuthButton(
                   authMode: _authMode,
                   onSubmit: _submit,
