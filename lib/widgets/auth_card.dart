@@ -141,48 +141,42 @@ class _AuthCardState extends State<AuthCard>
       ),
       elevation: dimens.authCardElevation,
       child: AnimatedContainer(
-        height: authCardHeight,
-        constraints: BoxConstraints(minHeight: authCardHeight),
         width: deviceSize.width * 0.75,
         padding: dimens.authCardPadding,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
-        child: Center(
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    decoration:
-                        const InputDecoration(labelText: constants.labelEmail),
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    validator: FormValidator.checkValidEmail,
-                    onSaved: (value) {
-                      _authData[constants.emailKey] = value!;
-                    },
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        labelText: constants.labelPassword),
-                    obscureText: true,
-                    textInputAction: _authMode == AuthMode.signup
-                        ? TextInputAction.next
-                        : TextInputAction.done,
-                    controller: _passwordController,
-                    validator: FormValidator.checkValidPassword,
-                    onSaved: (value) {
-                      _authData[constants.passwordKey] = value!;
-                    },
-                  ),
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    constraints: BoxConstraints(
-                      minHeight: _authMode == AuthMode.signup ? 60 : 0,
-                      maxHeight: _authMode == AuthMode.signup ? 120 : 0,
-                    ),
-                    curve: Curves.easeIn,
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  decoration:
+                      const InputDecoration(labelText: constants.labelEmail),
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  validator: FormValidator.checkValidEmail,
+                  onSaved: (value) {
+                    _authData[constants.emailKey] = value!;
+                  },
+                ),
+                TextFormField(
+                  decoration:
+                      const InputDecoration(labelText: constants.labelPassword),
+                  obscureText: true,
+                  textInputAction: _authMode == AuthMode.signup
+                      ? TextInputAction.next
+                      : TextInputAction.done,
+                  controller: _passwordController,
+                  validator: FormValidator.checkValidPassword,
+                  onSaved: (value) {
+                    _authData[constants.passwordKey] = value!;
+                  },
+                ),
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 300),
+                  child: SizedBox(
+                    height: _authMode == AuthMode.signup ? null : 0,
                     child: FadeTransition(
                       opacity: _opacityAnimation,
                       child: SlideTransition(
@@ -202,20 +196,20 @@ class _AuthCardState extends State<AuthCard>
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: dimens.authCardSizedBoxHeight,
-                  ),
-                  AuthButton(
-                    authMode: _authMode,
-                    onSubmit: _submit,
-                    isLoading: _isLoading,
-                  ),
-                  AuthModeButton(
-                    authMode: _authMode,
-                    onClick: _switchAuthMode,
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: dimens.authCardSizedBoxHeight,
+                ),
+                AuthButton(
+                  authMode: _authMode,
+                  onSubmit: _submit,
+                  isLoading: _isLoading,
+                ),
+                AuthModeButton(
+                  authMode: _authMode,
+                  onClick: _switchAuthMode,
+                ),
+              ],
             ),
           ),
         ),
