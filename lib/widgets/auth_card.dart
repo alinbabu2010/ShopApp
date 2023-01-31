@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/data/models/http_exception.dart';
+import 'package:shop_app/utils/form_validator.dart';
+import 'package:shop_app/widgets/auth_button.dart';
+import 'package:shop_app/widgets/auth_mode_button.dart';
 
 import '../providers/auth.dart';
 import '../utils/constants.dart' as constants;
@@ -129,12 +132,6 @@ class _AuthCardState extends State<AuthCard>
       ? dimens.authCardSignupHeight
       : dimens.authCardLoginHeight;
 
-  String get elevatedButtonText =>
-      _authMode == AuthMode.login ? constants.login : constants.signup;
-
-  String get buttonText =>
-      _authMode == AuthMode.signup ? constants.login : constants.signup;
-
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -161,13 +158,7 @@ class _AuthCardState extends State<AuthCard>
                         const InputDecoration(labelText: constants.labelEmail),
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
-                    validator: (value) {
-                      if (value?.isEmpty == true ||
-                          value?.contains('@') == false) {
-                        return constants.invalidEmail;
-                      }
-                      return null;
-                    },
+                    validator: FormValidator.checkValidEmail,
                     onSaved: (value) {
                       _authData[constants.emailKey] = value!;
                     },
@@ -180,13 +171,7 @@ class _AuthCardState extends State<AuthCard>
                         ? TextInputAction.next
                         : TextInputAction.done,
                     controller: _passwordController,
-                    validator: (value) {
-                      if (value?.isEmpty == true ||
-                          value?.length.compareTo(5).isNegative == true) {
-                        return constants.shortPasswordError;
-                      }
-                      return null;
-                    },
+                    validator: FormValidator.checkValidPassword,
                     onSaved: (value) {
                       _authData[constants.passwordKey] = value!;
                     },
@@ -210,12 +195,8 @@ class _AuthCardState extends State<AuthCard>
                           obscureText: true,
                           textInputAction: TextInputAction.done,
                           validator: _authMode == AuthMode.signup
-                              ? (value) {
-                                  if (value != _passwordController.text) {
-                                    return constants.passwordMatchError;
-                                  }
-                                  return null;
-                                }
+                              ? (value) => FormValidator.checkPasswordMatch(
+                                  value, _passwordController.text)
                               : null,
                         ),
                       ),
@@ -224,41 +205,14 @@ class _AuthCardState extends State<AuthCard>
                   const SizedBox(
                     height: dimens.authCardSizedBoxHeight,
                   ),
-                  if (_isLoading)
-                    const CircularProgressIndicator()
-                  else
-                    ElevatedButton(
-                      onPressed: _submit,
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).primaryColor,
-                        ),
-                        foregroundColor: MaterialStateProperty.all(
-                          Theme.of(context).primaryTextTheme.labelLarge?.color,
-                        ),
-                        padding: MaterialStateProperty.all(
-                          dimens.authCardButtonPadding,
-                        ),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: dimens.authCardButtonBorderRadius,
-                          ),
-                        ),
-                      ),
-                      child: Text(elevatedButtonText),
-                    ),
-                  TextButton(
-                    onPressed: _switchAuthMode,
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                        dimens.authCardTextButtonPadding,
-                      ),
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      foregroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryColor,
-                      ),
-                    ),
-                    child: Text('$buttonText ${constants.instead}'),
+                  AuthButton(
+                    authMode: _authMode,
+                    onSubmit: _submit,
+                    isLoading: _isLoading,
+                  ),
+                  AuthModeButton(
+                    authMode: _authMode,
+                    onClick: _switchAuthMode,
                   ),
                 ],
               ),
