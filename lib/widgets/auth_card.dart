@@ -181,17 +181,16 @@ class _AuthCardState extends State<AuthCard>
                       opacity: _opacityAnimation,
                       child: SlideTransition(
                         position: _slideAnimation,
-                        child: TextFormField(
-                          enabled: _authMode == AuthMode.signup,
-                          decoration: const InputDecoration(
-                              labelText: constants.labelConfirmPassword),
-                          obscureText: true,
-                          textInputAction: TextInputAction.done,
-                          validator: _authMode == AuthMode.signup
-                              ? (value) => FormValidator.checkPasswordMatch(
-                                  value, _passwordController.text)
-                              : null,
-                        ),
+                        child: _authMode == AuthMode.signup
+                            ? TextFormField(
+                                decoration: const InputDecoration(
+                                    labelText: constants.labelConfirmPassword),
+                                obscureText: true,
+                                textInputAction: TextInputAction.done,
+                                validator: (value) =>
+                                    FormValidator.checkPasswordMatch(
+                                        value, _passwordController.text))
+                            : const Placeholder(),
                       ),
                     ),
                   ),
