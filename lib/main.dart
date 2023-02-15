@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/navigation/nav_manager.dart';
 import 'package:shop_app/providers/auth.dart';
@@ -17,6 +18,13 @@ class ShopApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navManager = NavManager.getInstance();
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.transparent,
+      ),
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
