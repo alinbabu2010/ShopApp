@@ -159,7 +159,7 @@ class _AuthCardState extends State<AuthCard>
                   textInputAction: TextInputAction.next,
                   validator: FormValidator.checkValidEmail,
                   onSaved: (value) {
-                    _authData[constants.emailKey] = value!;
+                    _authData[constants.emailKey] = value!.trim();
                   },
                 ),
                 TextFormField(
