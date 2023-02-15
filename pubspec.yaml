@@ -42,6 +42,15 @@ dependencies:
   json_annotation: ^4.8.0
   envied: ^0.3.0
   shared_preferences: ^2.0.17
+  flutter_native_splash: ^2.2.16
+
+flutter_native_splash:
+  color: "#f9c383"
+  image: assets/images/shop_icon.png
+  android_12:
+    image: assets/images/shop_icon.png
+    icon_background_color: "#f9c383"
+  web: false
 
 dev_dependencies:
   flutter_test:
