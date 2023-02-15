@@ -43,6 +43,7 @@ dependencies:
   envied: ^0.3.0
   shared_preferences: ^2.0.17
   flutter_native_splash: ^2.2.16
+  flutter_launcher_icons: ^0.11.0
 
 flutter_native_splash:
   color: "#f9c383"
@@ -51,6 +52,15 @@ flutter_native_splash:
     image: assets/images/shop_icon.png
     icon_background_color: "#f9c383"
   web: false
+
+flutter_icons:
+  image_path: "assets/images/shop_launcher_icon.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+  adaptive_icon_background: "#f9c383" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground: "assets/images/shop_launcher_icon.png" # only available for Android 8.0 devices and above
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
 
 dev_dependencies:
   flutter_test:
