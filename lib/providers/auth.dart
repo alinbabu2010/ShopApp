@@ -14,6 +14,9 @@ class Auth with ChangeNotifier {
   final authManager = AuthRepository.newInstance();
   final preferenceManager = PreferenceManager();
 
+  /// Flag to check a user is logged out by clicking logout button
+  bool isLoggedOut = false;
+
   bool get isAuth => token != null;
 
   String? get token {
@@ -69,6 +72,7 @@ class Auth with ChangeNotifier {
           _authTimer?.cancel();
           _authTimer = null;
         }
+        isLoggedOut = true;
         notifyListeners();
       }
     });

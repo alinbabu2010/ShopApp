@@ -34,15 +34,17 @@ class NavManager {
       FlutterNativeSplash.remove();
       return const ProductsOverview();
     } else {
-      return FutureBuilder(
-          future: auth.tryAutoLogin(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.waiting) {
-              FlutterNativeSplash.remove();
-              return const AuthScreen();
-            }
-            return const SizedBox();
-          });
+      return auth.isLoggedOut
+          ? const AuthScreen()
+          : FutureBuilder(
+              future: auth.tryAutoLogin(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.waiting) {
+                  FlutterNativeSplash.remove();
+                  return const AuthScreen();
+                }
+                return const SizedBox();
+              });
     }
   }
 
