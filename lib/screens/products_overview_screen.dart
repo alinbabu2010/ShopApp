@@ -53,7 +53,7 @@ class _ProductsOverviewState extends State<ProductsOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("MyShop"),
+          title: const Text(appName),
           actions: [
             PopupMenuButton(
               itemBuilder: (_) => [
