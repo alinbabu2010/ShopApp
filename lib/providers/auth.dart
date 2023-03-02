@@ -20,7 +20,7 @@ class Auth with ChangeNotifier {
   bool get isAuth => token != null;
 
   String? get token {
-    if (expiryDate.isAfter(DateTime.now()) == true &&
+    if (expiryDate?.isAfter(DateTime.now()) == true &&
         userData?.idToken != null) {
       return userData?.idToken;
     }
@@ -29,12 +29,13 @@ class Auth with ChangeNotifier {
 
   String? get userId => userData?.localId;
 
-  DateTime get expiryDate => DateTime.now()
-      .add(Duration(seconds: int.parse(userData?.expiresIn ?? "0")));
+  DateTime? get expiryDate => preferenceManager.getExpiryTime();
 
   void _setData(AuthSuccessResponse response) {
     userData = response;
-    preferenceManager.saveUserData(response);
+    preferenceManager
+      ..saveExpiryDate(userData?.expiresIn)
+      ..saveUserData(response);
     _autoLogout();
     notifyListeners();
   }
@@ -42,7 +43,7 @@ class Auth with ChangeNotifier {
   Future<bool> tryAutoLogin() async {
     final prefs = await preferenceManager.setupPreference();
     userData = preferenceManager.getUserData(prefs);
-    if (expiryDate.isBefore(DateTime.now())) {
+    if (expiryDate?.isBefore(DateTime.now()) == true) {
       return false;
     }
     notifyListeners();
@@ -80,7 +81,7 @@ class Auth with ChangeNotifier {
 
   void _autoLogout() {
     if (_authTimer != null) _authTimer?.cancel();
-    final expiryTime = expiryDate.difference(DateTime.now()).inSeconds;
+    final expiryTime = expiryDate?.difference(DateTime.now()).inSeconds ?? 0;
     _authTimer = Timer(Duration(seconds: expiryTime), logout);
   }
 }
