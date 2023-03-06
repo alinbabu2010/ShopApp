@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/data/models/product.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
-import 'package:shop_app/utils/constants.dart';
 
 import '../providers/cart.dart';
 import '../providers/products.dart';
@@ -14,13 +14,14 @@ class ProductItem extends StatelessWidget {
   const ProductItem(this.product, {Key? key}) : super(key: key);
 
   void setupSnackBar(BuildContext context, Cart cart, Product product) {
+    final appLocalizations = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text(cartAddedMsg),
+        content: Text(appLocalizations.cartAddedMsg),
         duration: const Duration(seconds: 2),
         action: SnackBarAction(
-          label: undo,
+          label: appLocalizations.undo,
           onPressed: () => cart.removeSingleItem(product.id),
         ),
       ),

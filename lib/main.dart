@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/navigation/nav_manager.dart';
 import 'package:shop_app/providers/auth.dart';
@@ -53,7 +54,7 @@ class ShopApp extends StatelessWidget {
       ],
       child: Consumer<Auth>(
         builder: (context, auth, _) => MaterialApp(
-          title: appName,
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appName,
           theme: ThemeData(
             colorScheme: const ColorScheme.light(
               primary: Colors.indigo,
@@ -63,6 +64,8 @@ class ShopApp extends StatelessWidget {
             pageTransitionsTheme: navManager.getPageTransitionsTheme(),
           ),
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: navManager.getHomeRoute(auth),
           routes: navManager.getRoutes(),
         ),

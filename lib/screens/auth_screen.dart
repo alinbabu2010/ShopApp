@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../utils/constants.dart' as constants;
 import '../utils/dimens.dart' as dimens;
 import '../widgets/auth_card.dart';
 
@@ -59,7 +59,7 @@ class AuthScreen extends StatelessWidget {
                         ],
                       ),
                       child: Text(
-                        constants.appName,
+                        AppLocalizations.of(context)!.appName,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary,
                           fontSize: 50,

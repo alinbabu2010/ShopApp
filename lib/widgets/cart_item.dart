@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/utils/dimens.dart';
-
-import '../utils/constants.dart';
 
 class CartItem extends StatelessWidget {
   final String id;
@@ -23,6 +22,7 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Dismissible(
       key: ValueKey(id),
       background: Container(
@@ -43,19 +43,19 @@ class CartItem extends StatelessWidget {
         return showDialog(
           context: context,
           builder: (_) => AlertDialog(
-            title: const Text(dismissDialogTitleText),
-            content: const Text(dismissDialogContentText),
+            title: Text(appLocalization.dismissDialogTitleText),
+            content: Text(appLocalization.dismissDialogContentText),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
-                  child: const Text(no)),
+                  child: Text(appLocalization.no)),
               TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  child: const Text(yes)),
+                  child: Text(appLocalization.yes)),
             ],
           ),
         );

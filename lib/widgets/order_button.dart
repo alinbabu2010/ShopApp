@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart.dart';
 import '../providers/orders.dart';
-import '../utils/constants.dart';
 
 class OrderButton extends StatefulWidget {
   const OrderButton({Key? key}) : super(key: key);
@@ -56,6 +56,7 @@ class _OrderButtonState extends State<OrderButton> {
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
     final scaffold = ScaffoldMessenger.of(context);
+    final appLocalization = AppLocalizations.of(context)!;
     return TextButton(
       onPressed: cart.itemCount == 0 ? null : () => _saveOrder(cart, scaffold),
       child: _isLoading
@@ -64,7 +65,7 @@ class _OrderButtonState extends State<OrderButton> {
               height: 20,
               child: CircularProgressIndicator(strokeWidth: 1),
             )
-          : const Text(orderNow),
+          : Text(appLocalization.orderNow),
     );
   }
 }

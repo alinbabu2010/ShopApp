@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/products.dart';
-import 'package:shop_app/utils/constants.dart';
 import 'package:shop_app/widgets/product_item.dart';
 
 import '../data/models/product.dart';
@@ -30,11 +30,15 @@ class ProductsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context)!;
     final productsData = Provider.of<Products>(context);
     final products =
         showFavorites ? productsData.favoriteItems : productsData.items;
     return products.isEmpty
-        ? EmptyMsgWidget(message: showFavorites ? emptyFavMsg : emptyProductMsg)
+        ? EmptyMsgWidget(
+            message: showFavorites
+                ? appLocalizations.emptyFavMsg
+                : appLocalizations.emptyProductMsg)
         : buildGridView(context, products);
   }
 }

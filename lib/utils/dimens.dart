@@ -52,7 +52,7 @@ const editProductsRowContainerHeight = 100.0;
 const authFlexContainerMargin = EdgeInsets.only(bottom: 20.0);
 const authFlexContainerPadding = EdgeInsets.symmetric(
   vertical: 8.0,
-  horizontal: 94.0,
+  horizontal: 74.0,
 );
 var authFlexContainerBorderRadius = BorderRadius.circular(20);
 const authFlexContainerBlurRadius = 8.0;

@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../data/models/product.dart';
 import '../providers/products.dart';
-import '../utils/constants.dart' as constants;
 import '../utils/dimens.dart' as dimens;
 import '../utils/form_validator.dart';
 
@@ -98,17 +98,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   Future<void> displayErrorDialog(String message) async {
+    final appLocalization = AppLocalizations.of(context)!;
     return await showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text(constants.errorOccurred),
-        content: Text(kDebugMode ? message : constants.somethingWrong),
+        title: Text(appLocalization.errorOccurred),
+        content: Text(kDebugMode ? message : appLocalization.somethingWrong),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text(constants.ok),
+            child: Text(appLocalization.ok),
           )
         ],
       ),
@@ -142,9 +143,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(constants.editProduct),
+        title: Text(appLocalization.editProduct),
         actions: [
           IconButton(
             onPressed: _saveForm,
@@ -155,27 +157,27 @@ class _EditProductScreenState extends State<EditProductScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-              padding: dimens.editProductsPadding,
-              child: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        initialValue: _editedProduct.title,
+        padding: dimens.editProductsPadding,
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextFormField(
+                  initialValue: _editedProduct.title,
                         decoration:
-                            const InputDecoration(labelText: constants.title),
+                            InputDecoration(labelText: appLocalization.title),
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) => _priceFocusNode.requestFocus(),
                         onSaved: (value) => createProduct(title: value),
                         validator: (value) => FormValidator.checkTitle(value),
                       ),
-                      TextFormField(
-                          initialValue: _editedProduct.price > 0
+                TextFormField(
+                    initialValue: _editedProduct.price > 0
                               ? _editedProduct.price.toString()
                               : "",
                           decoration:
-                              const InputDecoration(labelText: constants.price),
+                              InputDecoration(labelText: appLocalization.price),
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           focusNode: _priceFocusNode,
@@ -185,10 +187,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               createProduct(price: double.tryParse(value!)),
                           validator: (value) =>
                               FormValidator.checkPrice(value)),
-                      TextFormField(
-                        initialValue: _editedProduct.description,
-                        decoration: const InputDecoration(
-                            labelText: constants.description),
+                TextFormField(
+                  initialValue: _editedProduct.description,
+                        decoration: InputDecoration(
+                            labelText: appLocalization.description),
                         maxLines: 3,
                         keyboardType: TextInputType.multiline,
                         focusNode: _descriptionFocusNode,
@@ -196,29 +198,29 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         validator: (value) =>
                             FormValidator.checkDescription(value),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: dimens.editProductsRowContainerWidth,
-                            height: dimens.editProductsRowContainerHeight,
-                            margin: dimens.editProductsRowContainerMargin,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1, color: Colors.grey)),
-                            child: _imageUrlController.text.isEmpty
-                                ? const Text(constants.enterImageUrl)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: dimens.editProductsRowContainerWidth,
+                      height: dimens.editProductsRowContainerHeight,
+                      margin: dimens.editProductsRowContainerMargin,
+                      decoration: BoxDecoration(
+                          border:
+                          Border.all(width: 1, color: Colors.grey)),
+                      child: _imageUrlController.text.isEmpty
+                                ? Text(appLocalization.enterImageUrl)
                                 : FittedBox(
                                     child: Image.network(
                                       _imageUrlController.text,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                  labelText: constants.imageUrl),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                              decoration: InputDecoration(
+                                  labelText: appLocalization.imageUrl),
                               keyboardType: TextInputType.url,
                               textInputAction: TextInputAction.done,
                               controller: _imageUrlController,
@@ -229,14 +231,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               validator: (value) =>
                                   FormValidator.checkUrl(value),
                             ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                    )
+                  ],
+                )
+              ],
             ),
+          ),
+        ),
+      ),
     );
   }
 }

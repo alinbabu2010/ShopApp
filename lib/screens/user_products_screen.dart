@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/screens/edit_product_screen.dart';
-import 'package:shop_app/utils/constants.dart';
 import 'package:shop_app/widgets/app_drawer.dart';
 import 'package:shop_app/widgets/user_product_item.dart';
 
@@ -48,7 +48,7 @@ class _UserProductsScreenState extends State<UserProductsScreen> {
     final productsData = Provider.of<Products>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text(yourProducts),
+        title: Text(AppLocalizations.of(context)!.yourProducts),
         actions: [
           IconButton(
             onPressed: () {

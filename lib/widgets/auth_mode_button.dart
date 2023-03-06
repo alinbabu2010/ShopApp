@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shop_app/widgets/auth_card.dart';
 
-import '../utils/constants.dart' as constants;
 import '../utils/dimens.dart' as dimens;
 
 class AuthModeButton extends StatelessWidget {
@@ -14,8 +14,12 @@ class AuthModeButton extends StatelessWidget {
     required this.onClick,
   }) : super(key: key);
 
-  String get buttonText =>
-      authMode == AuthMode.signup ? constants.login : constants.signup;
+  String buttonText(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
+    return authMode == AuthMode.signup
+        ? appLocalization.login
+        : appLocalization.signup;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,8 @@ class AuthModeButton extends StatelessWidget {
           Theme.of(context).primaryColor,
         ),
       ),
-      child: Text('$buttonText ${constants.instead}'),
+      child: Text(
+          '${buttonText(context)} ${AppLocalizations.of(context)!.instead}'),
     );
   }
 }

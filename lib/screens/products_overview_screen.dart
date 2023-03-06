@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/screens/cart_screen.dart';
-import 'package:shop_app/utils/constants.dart';
 import 'package:shop_app/utils/dimens.dart';
 import 'package:shop_app/widgets/app_drawer.dart';
 
@@ -51,19 +51,20 @@ class _ProductsOverviewState extends State<ProductsOverview> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Scaffold(
         appBar: AppBar(
-          title: const Text(appName),
+          title: Text(appLocalization.appName),
           actions: [
             PopupMenuButton(
               itemBuilder: (_) => [
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: FilterOptions.favorites,
-                  child: Text(onlyFavorites),
+                  child: Text(appLocalization.onlyFavorites),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: FilterOptions.all,
-                  child: Text(showAll),
+                  child: Text(appLocalization.showAll),
                 ),
               ],
               icon: const Icon(Icons.more_vert),

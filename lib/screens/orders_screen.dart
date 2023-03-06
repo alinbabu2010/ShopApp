@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/orders.dart';
-import 'package:shop_app/utils/constants.dart' as constants;
 import 'package:shop_app/widgets/app_drawer.dart';
 import 'package:shop_app/widgets/orders_item.dart';
 
@@ -43,9 +43,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(constants.yourOrders),
+        title: Text(appLocalization.yourOrders),
       ),
       body: FutureBuilder(
           future: _ordersFuture,
@@ -61,7 +62,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   builder: (context, orderData, child) => RefreshIndicator(
                     onRefresh: _refreshOrders,
                     child: orderData.orders.isEmpty
-                        ? const EmptyMsgWidget(message: constants.emptyOrders)
+                        ? EmptyMsgWidget(message: appLocalization.emptyOrders)
                         : ListView.builder(
                             itemBuilder: (_, index) =>
                                 OrdersItem(orderData.orders[index]),

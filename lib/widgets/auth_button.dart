@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../utils/constants.dart' as constants;
 import '../utils/dimens.dart' as dimens;
 import 'auth_card.dart';
 
@@ -16,8 +16,12 @@ class AuthButton extends StatelessWidget {
     required this.isLoading,
   }) : super(key: key);
 
-  String get elevatedButtonText =>
-      authMode == AuthMode.login ? constants.login : constants.signup;
+  String elevatedButtonText(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
+    return authMode == AuthMode.login
+        ? appLocalization.login
+        : appLocalization.signup;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,7 @@ class AuthButton extends StatelessWidget {
                 ),
               ),
             ),
-            child: Text(elevatedButtonText),
+            child: Text(elevatedButtonText(context)),
           );
   }
 }

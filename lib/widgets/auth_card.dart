@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/data/models/http_exception.dart';
 import 'package:shop_app/utils/form_validator.dart';
@@ -73,15 +74,16 @@ class _AuthCardState extends State<AuthCard>
   }
 
   void _showErrorDialog(String message) {
+    final appLocalization = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(constants.errorOccurred),
+        title: Text(appLocalization.errorOccurred),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text(constants.ok),
+            child: Text(appLocalization.ok),
           ),
         ],
       ),
@@ -139,6 +141,7 @@ class _AuthCardState extends State<AuthCard>
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final appLocalization = AppLocalizations.of(context)!;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: dimens.authCardBorderRadius),
       elevation: dimens.authCardElevation,
@@ -154,7 +157,7 @@ class _AuthCardState extends State<AuthCard>
               children: <Widget>[
                 TextFormField(
                   decoration:
-                      const InputDecoration(labelText: constants.labelEmail),
+                      InputDecoration(labelText: appLocalization.labelEmail),
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   validator: FormValidator.checkValidEmail,
@@ -164,7 +167,7 @@ class _AuthCardState extends State<AuthCard>
                 ),
                 TextFormField(
                   decoration:
-                      const InputDecoration(labelText: constants.labelPassword),
+                      InputDecoration(labelText: appLocalization.labelPassword),
                   obscureText: true,
                   textInputAction: _passwordTextInputAction,
                   controller: _passwordController,
@@ -183,8 +186,9 @@ class _AuthCardState extends State<AuthCard>
                         position: _slideAnimation,
                         child: _authMode == AuthMode.signup
                             ? TextFormField(
-                                decoration: const InputDecoration(
-                                    labelText: constants.labelConfirmPassword),
+                                decoration: InputDecoration(
+                                    labelText:
+                                        appLocalization.labelConfirmPassword),
                                 obscureText: true,
                                 textInputAction: TextInputAction.done,
                                 validator: (value) =>

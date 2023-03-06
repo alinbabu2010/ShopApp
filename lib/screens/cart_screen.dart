@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart' show Cart;
-import 'package:shop_app/utils/constants.dart';
 import 'package:shop_app/utils/typography.dart';
 import 'package:shop_app/widgets/order_button.dart';
 
@@ -15,10 +15,11 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     final cart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text(yourCart),
+        title: Text(appLocalization.yourCart),
       ),
       body: Column(
         children: [
@@ -29,8 +30,8 @@ class CartScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    total,
+                  Text(
+                    appLocalization.total,
                     style: cardScreenTotalTextStyle,
                   ),
                   const Spacer(),
