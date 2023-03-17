@@ -43,7 +43,7 @@ class NavManager {
                   FlutterNativeSplash.remove();
                   return const AuthScreen();
                 }
-                return const SizedBox();
+                return const AuthScreen();
               });
     }
   }
