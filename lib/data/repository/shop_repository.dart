@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
+import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:shop_app/utils/constants.dart' as constants;
 
+import '../interceptors/logging_interceptor.dart';
 import '../models/http_exception.dart';
 import '../models/order_item.dart';
 import '../models/parsers/order_item_parser.dart';
@@ -23,6 +25,10 @@ class ShopRepository {
     shopRepository ??= ShopRepository();
   }
 
+  final _client = InterceptedClient.build(interceptors: [
+    LoggingInterceptor(),
+  ]);
+
   void setCredentials(String? token, String? userId) {
     _authToken = token;
     _userId = userId;
@@ -32,16 +38,17 @@ class ShopRepository {
     var uri = _createUrl("/products/$_userId.json");
     final requestBody = product.toJson();
     requestBody.remove("isFavorite");
-    return post(uri, body: jsonEncode(requestBody))
+    return _client
+        .post(uri, body: jsonEncode(requestBody))
         .then((response) => jsonDecode(response.body)['name']);
   }
 
   Future<List<Product>> fetchProducts() async {
     var uri = _createUrl("/products/$_userId.json");
     try {
-      final productResponse = await get(uri);
+      final productResponse = await _client.get(uri);
       uri = _createUrl("/userFavorites/$_userId.json");
-      final favoriteResponse = await get(uri);
+      final favoriteResponse = await _client.get(uri);
       if (productResponse.statusCode >= HttpStatus.badRequest) {
         _throwError(productResponse.body.toString());
       } else if (favoriteResponse.statusCode >= HttpStatus.badRequest) {
@@ -56,23 +63,23 @@ class ShopRepository {
 
   Future<Response> setFavoriteProduct(String productId, bool isFavorite) {
     final uri = _createUrl("/userFavorites/$_userId/$productId.json");
-    return put(uri, body: jsonEncode(isFavorite));
+    return _client.put(uri, body: jsonEncode(isFavorite));
   }
 
   Future<Response> updateProduct(String productId, Product product) {
     final uri = _createUrl("/products/$_userId/$productId.json");
-    return patch(uri, body: jsonEncode(product));
+    return _client.patch(uri, body: jsonEncode(product));
   }
 
   Future<Response> deleteProduct(String productId) async {
     final uri = _createUrl("/products/$_userId/$productId.json");
-    return await delete(uri);
+    return await _client.delete(uri);
   }
 
   Future<OrderItem> addOrders(OrderItem orderItem) async {
     final uri = _createUrl("/orders/$_userId.json");
     try {
-      var response = await post(uri, body: jsonEncode(orderItem));
+      var response = await _client.post(uri, body: jsonEncode(orderItem));
       if (response.statusCode >= HttpStatus.badRequest) {
         _throwOrdersError(response.body.toString());
       } else {
@@ -87,7 +94,7 @@ class ShopRepository {
   Future<List<OrderItem>> fetchOrders() async {
     final uri = _createUrl("/orders/$_userId.json");
     try {
-      var response = await get(uri);
+      var response = await _client.get(uri);
       if (response.statusCode >= HttpStatus.badRequest) {
         _throwError(response.body.toString());
       } else {

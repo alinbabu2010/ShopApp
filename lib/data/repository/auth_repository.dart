@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart';
+import 'package:http_interceptor/http/intercepted_http.dart';
+import 'package:shop_app/data/interceptors/logging_interceptor.dart';
 import 'package:shop_app/env/env.dart';
 import 'package:shop_app/utils/constants.dart' as constants;
 
@@ -27,7 +28,10 @@ class AuthRepository {
   ) async {
     final uri = Uri.parse("$_authority:$urlSegment?key=${Env.authApiKey}");
     try {
-      final response = await post(uri, body: jsonEncode(request));
+      final http = InterceptedHttp.build(interceptors: [
+        LoggingInterceptor(),
+      ]);
+      final response = await http.post(uri, body: jsonEncode(request));
       if (response.statusCode >= HttpStatus.badRequest) {
         final errorResponse = AuthErrorResponse.fromJson(
           jsonDecode(response.body),
