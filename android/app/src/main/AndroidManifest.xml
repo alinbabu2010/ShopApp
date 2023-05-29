@@ -4,6 +4,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
+        android:localeConfig="@xml/locales_config"
         android:label="Shop App">
         <activity
             android:name=".MainActivity"
