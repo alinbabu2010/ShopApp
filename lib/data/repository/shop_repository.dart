@@ -21,7 +21,7 @@ class ShopRepository {
   String? _authToken;
   String? _userId;
 
-  ShopRepository.newInstance() {
+  ShopRepository.instance() {
     shopRepository ??= ShopRepository();
   }
 

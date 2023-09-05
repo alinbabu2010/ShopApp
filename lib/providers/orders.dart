@@ -14,7 +14,7 @@ class Orders with ChangeNotifier {
     shopRepository.setCredentials(authToken, userId);
   }
 
-  final shopRepository = ShopRepository.newInstance();
+  final shopRepository = ShopRepository.instance();
 
   List<OrderItem> get orders {
     return [..._orders];

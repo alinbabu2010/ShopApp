@@ -11,7 +11,7 @@ class Auth with ChangeNotifier {
   AuthSuccessResponse? userData;
   Timer? _authTimer;
 
-  final authManager = AuthRepository.newInstance();
+  final authRepository = AuthRepository.instance();
   final preferenceManager = PreferenceManager();
 
   /// Flag to check a user is logged out by clicking logout button
@@ -53,14 +53,14 @@ class Auth with ChangeNotifier {
 
   Future<void> signup(String email, String password) async {
     final requestModel = SignupRequest(email, password);
-    return authManager
+    return authRepository
         .signup(requestModel)
         .then((response) => _setData(response));
   }
 
   Future<void> signIn(String email, String password) async {
     final requestModel = SignupRequest(email, password);
-    return authManager
+    return authRepository
         .signIn(requestModel)
         .then((response) => _setData(response));
   }

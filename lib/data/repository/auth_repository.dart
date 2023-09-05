@@ -18,7 +18,7 @@ class AuthRepository {
 
   final _authority = "https://identitytoolkit.googleapis.com/v1/accounts";
 
-  AuthRepository.newInstance() {
+  AuthRepository.instance() {
     authRepository ??= AuthRepository();
   }
 

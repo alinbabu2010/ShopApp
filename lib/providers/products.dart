@@ -15,7 +15,7 @@ class Products with ChangeNotifier {
     shopRepository.setCredentials(authToken, userId);
   }
 
-  final shopRepository = ShopRepository.newInstance();
+  final shopRepository = ShopRepository.instance();
 
   List<Product> get items {
     return [..._items];
