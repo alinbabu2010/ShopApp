@@ -60,6 +60,14 @@ class ShopApp extends StatelessWidget {
               primary: Colors.indigo,
               secondary: Colors.deepOrange,
             ),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.indigo,
+              foregroundColor: Colors.white,
+            ),
+            drawerTheme: const DrawerThemeData(
+              backgroundColor: Colors.white,
+              shape: LinearBorder.none,
+            ),
             fontFamily: latoFont,
             pageTransitionsTheme: navManager.getPageTransitionsTheme(),
           ),
