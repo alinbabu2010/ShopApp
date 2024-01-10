@@ -11,7 +11,7 @@ import '../utils/dimens.dart';
 class ProductItem extends StatelessWidget {
   final Product product;
 
-  const ProductItem(this.product, {Key? key}) : super(key: key);
+  const ProductItem(this.product, {super.key});
 
   void setupSnackBar(BuildContext context, Cart cart, Product product) {
     final appLocalizations = AppLocalizations.of(context)!;

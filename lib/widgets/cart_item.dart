@@ -17,8 +17,8 @@ class CartItem extends StatelessWidget {
     this.price,
     this.quantity,
     this.title, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ import '../widgets/empty_msg.dart';
 class UserProductsScreen extends StatefulWidget {
   static const routeName = "/user_product_screen";
 
-  const UserProductsScreen({Key? key}) : super(key: key);
+  const UserProductsScreen({super.key});
 
   @override
   State<UserProductsScreen> createState() => _UserProductsScreenState();

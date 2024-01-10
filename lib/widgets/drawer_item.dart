@@ -9,8 +9,8 @@ class DrawerItem extends StatelessWidget {
     this.icon,
     this.title,
     this.route, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ import 'empty_msg.dart';
 class ProductsGrid extends StatelessWidget {
   final bool showFavorites;
 
-  const ProductsGrid({Key? key, required this.showFavorites}) : super(key: key);
+  const ProductsGrid({super.key, required this.showFavorites});
 
   Widget buildGridView(
     BuildContext context,

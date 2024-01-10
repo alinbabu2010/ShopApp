@@ -10,11 +10,11 @@ class AuthButton extends StatelessWidget {
   final VoidCallback onSubmit;
 
   const AuthButton({
-    Key? key,
+    super.key,
     required this.authMode,
     required this.onSubmit,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   String elevatedButtonText(BuildContext context) {
     final appLocalization = AppLocalizations.of(context)!;

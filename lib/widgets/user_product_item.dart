@@ -14,8 +14,8 @@ class UserProductItem extends StatelessWidget {
     this.id,
     this.title,
     this.imageUrl, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

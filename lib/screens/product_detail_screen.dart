@@ -8,7 +8,7 @@ import '../utils/typography.dart';
 class ProductDetailScreen extends StatelessWidget {
   static const routeName = '/product_detail_screen';
 
-  const ProductDetailScreen({Key? key}) : super(key: key);
+  const ProductDetailScreen({super.key});
 
   SizedBox buildSizedBox() => const SizedBox(
         height: productDetailsSpacingHeight,

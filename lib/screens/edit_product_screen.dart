@@ -11,7 +11,7 @@ import '../utils/form_validator.dart';
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit_product_screen';
 
-  const EditProductScreen({Key? key}) : super(key: key);
+  const EditProductScreen({super.key});
 
   @override
   State<EditProductScreen> createState() => _EditProductScreenState();

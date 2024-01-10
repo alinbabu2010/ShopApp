@@ -14,8 +14,8 @@ enum AuthMode { signup, login }
 
 class AuthCard extends StatefulWidget {
   const AuthCard({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AuthCard> createState() => _AuthCardState();

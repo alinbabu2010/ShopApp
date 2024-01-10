@@ -9,7 +9,7 @@ import 'package:shop_app/utils/typography.dart';
 class OrdersItem extends StatefulWidget {
   final OrderItem order;
 
-  const OrdersItem(this.order, {Key? key}) : super(key: key);
+  const OrdersItem(this.order, {super.key});
 
   @override
   State<OrdersItem> createState() => _OrdersItemState();

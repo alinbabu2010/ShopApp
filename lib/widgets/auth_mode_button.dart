@@ -9,10 +9,10 @@ class AuthModeButton extends StatelessWidget {
   final VoidCallback onClick;
 
   const AuthModeButton({
-    Key? key,
+    super.key,
     required this.authMode,
     required this.onClick,
-  }) : super(key: key);
+  });
 
   String buttonText(BuildContext context) {
     final appLocalization = AppLocalizations.of(context)!;

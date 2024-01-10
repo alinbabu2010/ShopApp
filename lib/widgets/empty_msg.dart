@@ -6,9 +6,9 @@ class EmptyMsgWidget extends StatelessWidget {
   final String message;
 
   const EmptyMsgWidget({
-    Key? key,
+    super.key,
     required this.message,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
