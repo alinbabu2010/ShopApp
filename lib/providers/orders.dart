@@ -23,7 +23,7 @@ class Orders with ChangeNotifier {
   Future<void> fetchOrders() async {
     return shopRepository.fetchOrders().then((orders) {
       _orders.clear();
-      _orders.addAll(orders);
+      _orders.addAll(orders.reversed);
       notifyListeners();
     });
   }
