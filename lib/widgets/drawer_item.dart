@@ -16,7 +16,7 @@ class DrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Divider(),
+        const Divider(thickness: 0.2),
         ListTile(
           leading: Icon(icon),
           title: Text(title),

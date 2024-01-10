@@ -38,7 +38,7 @@ class AppDrawer extends StatelessWidget {
               appLocalization.yourProducts,
               UserProductsScreen.routeName,
             ),
-            const Divider(),
+            const Divider(thickness: 0.2),
             ListTile(
               leading: const Icon(Icons.exit_to_app),
               title: Text(appLocalization.logout),
